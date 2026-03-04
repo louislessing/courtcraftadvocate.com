@@ -31,3 +31,6 @@ dist/
 vscode.deb
 *.deb
 *.deb
+*.deb
+node_modules/
+dist/
