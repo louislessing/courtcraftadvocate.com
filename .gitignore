@@ -28,3 +28,5 @@ vscode.deb
 node_modules/
 dist/
 .env
+vscode.deb
+*.deb
