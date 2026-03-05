@@ -1,8 +1,3 @@
-FINAL_FIXED.jsx
-
-
-
-
 import { useState } from 'react'
     
     const SERVICES = [
