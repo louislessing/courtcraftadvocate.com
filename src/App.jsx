@@ -1,438 +1,471 @@
-        import { useState } from 'react'
+import { useState } from 'react'
     
-    const NAV_ITEMS = ['Home', 'Services', 'Resources', 'Contact']
-    
-    const STATS = [
-      { value: '5,000+', label: 'Parents Helped' },
-      { value: '12,000+', label: 'Court Reports' },
-      { value: '94%', label: 'Success Rate' },
-    ]
-    
-    const SERVICES = [
-      { title: 'AI Legal Assistant', badge: 'Subscribers', icon: '🤖', desc: 'Get instant guidance on UK family law, court procedures, and McKenzie Friend rights from our AI-powered chatbot.' },
-      { title: 'Court Report Generator', badge: 'Subscribers', icon: '📄', desc: 'Generate professional, court-ready PDF reports with timelines, evidence appendices, and statements of truth.' },
-      { title: 'Child Contact Tracker', badge: 'Subscribers', icon: '👶', desc: 'Log every pickup, dropoff, and interaction. Track custody schedules and document everything for court.' },
-      { title: 'Finance Tracker', badge: 'Subscribers', icon: '💰', desc: 'Track child maintenance payments, additional expenses, and upload receipts. Generate financial summaries.' },
-      { title: 'Communication Logger', badge: 'Subscribers', icon: '💬', desc: 'Record all communications with your ex-partner. Tag as positive, neutral, or concerning for court evidence.' },
-      { title: 'Custody Calendar', badge: 'Subscribers', icon: '📅', desc: 'Visual calendar view of custody schedules, upcoming court dates, and important deadlines.' },
-      { title: 'Secure Document Storage', badge: 'Subscribers', icon: '🔒', desc: 'Upload and organise court orders, correspondence, evidence, and financial documents securely.' },
-      { title: 'McKenzie Friend Support', badge: 'Free', icon: '⚖️', desc: 'Professional guidance on your rights as a litigant in person with McKenzie Friend assistance in court.' },
-      { title: 'Legal Resources Library', badge: 'Free', icon: '📚', desc: 'Access articles, guides, FAQs, and video tutorials on UK family law and court procedures.' },
-      { title: 'Case Timeline Builder', badge: 'Subscribers', icon: '🗂️', desc: 'Build a chronological timeline of events for your case with evidence linking and export capabilities.' },
-      { title: 'GDPR Compliant', badge: 'All Users', icon: '🛡️', desc: 'Your data is encrypted at rest and in transit. Request deletion at any time. Full GDPR compliance.' },
-      { title: 'Analytics Dashboard', badge: 'Subscribers', icon: '📊', desc: 'Visual summaries of contact patterns, financial tracking, and communication trends for your case.' },
-    ]
+    const NAV_ITEMS = ['Dashboard', 'Cases', 'Documents', 'Calendar', 'Clients', 'Settings']
     
     const STEPS = [
-      { num: '01', title: 'Sign Up & Start Trial', desc: 'Create your account and get 7 days of full access to all features. No payment required upfront.' },
-      { num: '02', title: 'Set Up Your Case', desc: 'Add your case details, children's information, and start logging contacts, communications, and finances.' },
-      { num: '03', title: 'Get AI Guidance', desc: 'Use our AI Legal Assistant for instant answers about UK family law, court procedures, and your rights.' },
-      { num: '04', title: 'Generate Court Reports', desc: 'Create professional, court-ready PDF reports with timelines, evidence, and statements of truth.' },
+      { num: '01', title: 'Create Your Account', desc: 'Sign up in minutes and access your secure dashboard immediately.' },
+      { num: '02', title: 'Set Up Your Case', desc: 'Add your case details, children information, and start logging contacts, communications, and finances.' },
+      { num: '03', title: 'Build Your Evidence', desc: 'Upload documents, record incidents, and generate professional reports with a single click.' },
+      { num: '04', title: 'Present with Confidence', desc: 'Walk into court with organised, professional documentation that speaks for itself.' },
     ]
     
-    const TESTIMONIALS = [
-      { text: 'CourtCraft Advocate was a lifeline during my custody battle. The court report generator saved me thousands in solicitor fees, and the AI assistant helped me understand every step of the process.', name: 'Sarah M.', location: 'London · Custody Case', initial: 'S' },
+    const STATS = [
+      { label: 'Active Cases', value: 24, color: '#B8960C' },
+      { label: 'Pending Documents', value: 8, color: '#1a3a5c' },
+      { label: 'Upcoming Hearings', value: 5, color: '#B8960C' },
+      { label: 'Total Clients', value: 61, color: '#1a3a5c' },
     ]
     
-    const FREE_FEATURES = [
-      'Legal resources library',
-      'Blog articles & guides',
-      'Legal glossary access',
-      'FAQ section',
+    const CASES = [
+      { id: 'CC-001', client: 'Sarah Johnson', type: 'Child Custody', status: 'Active', date: '2024-03-15' },
+      { id: 'CC-002', client: 'Michael Brown', type: 'Divorce Proceedings', status: 'Pending', date: '2024-03-18' },
+      { id: 'CC-003', client: 'Emma Wilson', type: 'Visitation Rights', status: 'Active', date: '2024-03-20' },
+      { id: 'CC-004', client: 'James Taylor', type: 'Financial Settlement', status: 'Review', date: '2024-03-22' },
+      { id: 'CC-005', client: 'Lisa Anderson', type: 'Child Custody', status: 'Active', date: '2024-03-25' },
     ]
     
-    const FREE_LOCKED = [
-      'AI Legal Assistant',
-      'Court Report Generator',
-      'Child Contact Tracker',
-      'Finance Tracker',
-      'Document Storage',
-      'Communication Logger',
-    ]
+    const STATUS_COLORS = {
+      Active: { bg: '#dcfce7', text: '#166534' },
+      Pending: { bg: '#fef9c3', text: '#854d0e' },
+      Review: { bg: '#e0f2fe', text: '#075985' },
+    }
     
-    const PRO_FEATURES = [
-      'Everything in Free plan',
-      'AI Legal Assistant (unlimited)',
-      'Court Report Generator',
-      'Child Contact Tracker',
-      'Finance Tracker & Analytics',
-      'Secure Document Storage',
-      'Communication Logger',
-      'Case Timeline Builder',
-      'PDF Export for Court',
-      'Priority Email Support',
+    const SERVICES = [
+      { title: 'Case Timeline Builder', badge: 'Subscribers', desc: 'Create chronological case timelines automatically.' },
+      { title: 'Communication Logger', badge: 'Free', desc: 'Log every call, text, and email with timestamps.' },
+      { title: 'Evidence Organiser', badge: 'Subscribers', desc: 'Upload and categorise all your evidence securely.' },
+      { title: 'Court Report Generator', badge: 'Subscribers', desc: 'Professional court-ready reports in minutes.' },
+      { title: 'Financial Tracker', badge: 'Free', desc: 'Track maintenance payments and financial records.' },
+      { title: 'Hearing Prep Assistant', badge: 'Subscribers', desc: 'Step-by-step hearing preparation checklists.' },
+      { title: 'Document Templates', badge: 'All Users', desc: 'Access 50+ legal document templates.' },
+      { title: 'McKenzie Friend Guide', badge: 'Free', desc: 'Know your rights and how to use a McKenzie Friend.' },
+      { title: 'Safeguarding Reports', badge: 'Subscribers', desc: 'Generate safeguarding concern reports instantly.' },
+      { title: 'Contact Order Tracker', badge: 'Subscribers', desc: 'Monitor compliance with contact orders.' },
+      { title: 'Legal Glossary', badge: 'All Users', desc: 'Understand every legal term you encounter.' },
+      { title: 'Emergency Checklist', badge: 'Free', desc: 'What to do in urgent family court situations.' },
     ]
     
     const BADGE_COLORS = {
-      Subscribers: { bg: '#1e3a5f', color: '#60a5fa' },
-      Free: { bg: '#14532d', color: '#4ade80' },
-      'All Users': { bg: '#3b1d6b', color: '#c084fc' },
+      Subscribers: { bg: '#B8960C', text: 'white' },
+      Free: { bg: '#166534', text: 'white' },
+      'All Users': { bg: '#1a3a5c', text: 'white' },
     }
     
+    const PAYMENT_LINK = 'https://buy.stripe.com/courtcraftadvocate'
+    
     export default function App() {
-      const [activeNav, setActiveNav] = useState('Home')
-      const [mobileOpen, setMobileOpen] = useState(false)
-      const PAYMENT_LINK = 'https://buy.stripe.com/courtcraftadvocate'
-      const TRIAL_LINK = 'https://buy.stripe.com/courtcraftadvocate'
+      const [activeNav, setActiveNav] = useState('Dashboard')
+      const [bannerVisible, setBannerVisible] = useState(true)
+      const [menuOpen, setMenuOpen] = useState(false)
+    
+      const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600
     
       return (
-        <div style={{ fontFamily: "'Inter', system-ui, sans-serif", minHeight: '100vh', background: '#0a0e1a', color: 'white' }}>
+        <div style={{ fontFamily: 'Inter, system-ui, sans-serif', minHeight: '100vh', background: '#f0f4f8', margin: 0, padding: 0 }}>
     
-          {/* NAV */}
-          <nav style={{
-            position: 'sticky', top: 0, zIndex: 1000,
-            background: 'rgba(10,14,26,0.95)', backdropFilter: 'blur(12px)',
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-            padding: '0 40px', display: 'flex', alignItems: 'center',
-            justifyContent: 'space-between', height: '68px',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '22px' }}>⚖️</span>
-              <span style={{ fontWeight: 800, fontSize: '18px', color: '#c9a84c' }}>CourtCraft<span style={{ color: 'white' }}>Advocate</span></span>
+          <style>{`
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body { margin: 0; padding: 0; }
+    
+            .nav-links { display: flex; gap: 4px; }
+            .hamburger { display: none; }
+            .mobile-menu { display: none; }
+    
+            .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+            .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+            .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+            .steps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+            .hero-title { font-size: 42px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 16px; text-transform: uppercase; letter-spacing: -0.5px; }
+            .hero-sub { font-size: 18px; color: #a0b4c8; margin-bottom: 32px; }
+            .section-pad { padding: 64px 32px; max-width: 1200px; margin: 0 auto; }
+    
+            @media (max-width: 900px) {
+              .stats-grid { grid-template-columns: repeat(2, 1fr); }
+              .services-grid { grid-template-columns: repeat(2, 1fr); }
+              .footer-grid { grid-template-columns: repeat(2, 1fr); }
+              .hero-title { font-size: 32px; }
+              .section-pad { padding: 40px 24px; }
+            }
+    
+            @media (max-width: 600px) {
+              .nav-links { display: none; }
+              .hamburger { display: block; background: none; border: none; color: #B8960C; font-size: 26px; cursor: pointer; }
+              .mobile-menu { display: flex; flex-direction: column; background: #0d1f35; padding: 16px; gap: 8px; }
+              .mobile-menu button { background: none; border: none; color: #a0b4c8; font-size: 15px; text-align: left; padding: 10px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08); }
+              .stats-grid { grid-template-columns: repeat(2, 1fr); }
+              .services-grid { grid-template-columns: 1fr; }
+              .steps-grid { grid-template-columns: 1fr; }
+              .pricing-grid { grid-template-columns: 1fr; }
+              .footer-grid { grid-template-columns: 1fr; }
+              .hero-title { font-size: 26px; }
+              .hero-sub { font-size: 15px; }
+              .hero-btns a { width: 100%; text-align: center; }
+              .section-pad { padding: 32px 16px; }
+              .banner-text { font-size: 13px !important; }
+            }
+          `}</style>
+    
+          {/* £20/month Banner */}
+          {bannerVisible && (
+            <div style={{
+              background: 'linear-gradient(90deg, #1a3a5c 0%, #B8960C 100%)',
+              color: 'white', padding: '12px 20px', position: 'relative',
+              zIndex: 1000, display: 'flex', alignItems: 'center',
+              justifyContent: 'center', gap: '16px', flexWrap: 'wrap'
+            }}>
+              <span className="banner-text" style={{ fontSize: '15px', fontWeight: 600, textAlign: 'center' }}>
+                ⚖️ Get full access to CourtCraft Advocate for just <strong>£20/month</strong> — No solicitor needed!
+              </span>
+              <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
+                background: 'white', color: '#1a3a5c', fontWeight: 700,
+                padding: '6px 18px', borderRadius: '20px', textDecoration: 'none',
+                fontSize: '14px', whiteSpace: 'nowrap'
+              }}>Get Started — £20/month</a>
+              <button onClick={() => setBannerVisible(false)} style={{
+                position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)',
+                background: 'none', border: 'none', color: 'white',
+                fontSize: '22px', cursor: 'pointer', lineHeight: 1
+              }}>×</button>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          )}
+    
+          {/* Header / Nav */}
+          <header style={{
+            background: 'linear-gradient(135deg, #0d1f35 0%, #1a3a5c 100%)',
+            padding: '0 32px', display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', height: '64px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.3)', position: 'sticky', top: 0, zIndex: 999
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '26px' }}>⚖️</span>
+              <span style={{ color: '#B8960C', fontWeight: 700, fontSize: '18px' }}>CourtCraft Advocate</span>
+            </div>
+            <nav className="nav-links">
               {NAV_ITEMS.map(item => (
                 <button key={item} onClick={() => setActiveNav(item)} style={{
-                  background: 'transparent', border: 'none',
-                  color: activeNav === item ? '#c9a84c' : 'rgba(255,255,255,0.7)',
-                  fontWeight: 500, fontSize: '14px', padding: '8px 14px',
-                  cursor: 'pointer', borderRadius: '6px',
-                  transition: 'color 0.2s',
+                  background: activeNav === item ? 'rgba(184,150,12,0.2)' : 'transparent',
+                  color: activeNav === item ? '#B8960C' : '#a0b4c8',
+                  border: 'none', padding: '8px 14px', borderRadius: '6px',
+                  cursor: 'pointer', fontWeight: 500, fontSize: '14px'
                 }}>{item}</button>
               ))}
-              <button style={{
-                background: 'transparent', border: '1px solid rgba(255,255,255,0.3)',
-                color: 'white', padding: '8px 18px', borderRadius: '8px',
-                fontSize: '14px', fontWeight: 500, cursor: 'pointer', marginLeft: '8px',
-              }}>Sign In</button>
-              <a href={TRIAL_LINK} target="_blank" rel="noopener noreferrer" style={{
-                background: 'linear-gradient(135deg, #c9a84c, #a0722a)',
-                color: 'white', padding: '9px 20px', borderRadius: '8px',
-                fontSize: '14px', fontWeight: 700, textDecoration: 'none',
-                whiteSpace: 'nowrap',
+            </nav>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
+                background: '#B8960C', color: 'white', fontWeight: 700,
+                padding: '8px 18px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px'
               }}>Start Free Trial</a>
+              <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</button>
             </div>
-          </nav>
+          </header>
     
-          {/* HERO */}
+          {/* Mobile Menu */}
+          {menuOpen && (
+            <div className="mobile-menu">
+              {NAV_ITEMS.map(item => (
+                <button key={item} onClick={() => { setActiveNav(item); setMenuOpen(false); }}>{item}</button>
+              ))}
+            </div>
+          )}
+    
+          {/* Hero */}
           <section style={{
-            background: 'linear-gradient(135deg, #0a0e1a 0%, #0d1f35 50%, #0a0e1a 100%)',
-            padding: '100px 40px 80px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+            background: 'linear-gradient(135deg, #0d1f35 0%, #1a3a5c 100%)',
+            padding: '80px 32px', textAlign: 'center'
           }}>
-            {/* Background glow */}
-            <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
-    
-            <div style={{ display: 'inline-block', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)', color: '#c9a84c', padding: '6px 18px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, letterSpacing: '2px', marginBottom: '28px' }}>
-              TRUSTED LEGAL PARTNERS
-            </div>
-    
-            <div style={{ fontSize: '14px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', letterSpacing: '4px', marginBottom: '12px' }}>EMPOWERING FAMILIES</div>
-            <div style={{ fontSize: '15px', color: 'rgba(255,255,255,0.6)', marginBottom: '20px' }}>Professional McKenzie Friend Services</div>
-    
-            <h1 style={{ fontSize: 'clamp(52px, 8vw, 96px)', fontWeight: 900, lineHeight: 1.0, margin: '0 0 32px', letterSpacing: '-2px' }}>
-              <span style={{ color: 'white' }}>YOUR</span><br />
-              <span style={{ color: '#c9a84c' }}>CHILDREN</span><br />
-              <span style={{ color: 'white' }}>DESERVE</span><br />
-              <span style={{ color: 'white' }}>YOUR BEST</span>
-            </h1>
-    
-            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', maxWidth: '560px', margin: '0 auto 16px', lineHeight: 1.6 }}>
-              Professional McKenzie Friend Support at All Stages of Divorce &amp; Custody Proceedings
-            </p>
-    
-            <div style={{ margin: '0 0 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '32px', fontWeight: 800, color: '#c9a84c' }}>£20/month</span>
-              <div style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', color: '#c9a84c', padding: '4px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: 600 }}>7-Day Free Trial</div>
-            </div>
-    
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '36px' }}>Cancel anytime. No commitment.</div>
-    
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
-              <a href="mailto:support@courtcraftadvocate.com" style={{
-                background: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.3)',
-                padding: '14px 32px', borderRadius: '10px', fontWeight: 600, fontSize: '16px',
-                textDecoration: 'none',
-              }}>Contact Us</a>
-              <a href={TRIAL_LINK} target="_blank" rel="noopener noreferrer" style={{
-                background: 'linear-gradient(135deg, #c9a84c, #a0722a)',
-                color: 'white', padding: '14px 32px', borderRadius: '10px',
-                fontWeight: 700, fontSize: '16px', textDecoration: 'none',
-              }}>Start Free Trial</a>
-            </div>
-    
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '60px' }}>
-              Join 5,000+ Parents Fighting Smart
-            </div>
-    
-            {/* Stats */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '60px', flexWrap: 'wrap', padding: '40px 0', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-              {STATS.map(s => (
-                <div key={s.label} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '42px', fontWeight: 900, color: '#c9a84c' }}>{s.value}</div>
-                  <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>{s.label}</div>
-                </div>
-              ))}
-            </div>
-    
-            {/* Trust badges */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', flexWrap: 'wrap', marginTop: '32px' }}>
-              {['GDPR COMPLIANT', 'MCKENZIE FRIEND CERTIFIED', '24HR RESPONSE TIME', '5,000+ PARENTS HELPED'].map(b => (
-                <div key={b} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', padding: '6px 16px', borderRadius: '20px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px' }}>{b}</div>
-              ))}
+            <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+              <div style={{
+                display: 'inline-block', background: 'rgba(184,150,12,0.15)',
+                border: '1px solid #B8960C', borderRadius: '20px',
+                padding: '6px 18px', marginBottom: '24px'
+              }}>
+                <span style={{ color: '#B8960C', fontSize: '14px', fontWeight: 600 }}>
+                  ⚖️ McKenzie Friend Support Platform — £20/month
+                </span>
+              </div>
+              <h1 className="hero-title">YOUR CHILDREN DESERVE YOUR BEST</h1>
+              <p className="hero-sub">
+                Professional family court support — document everything, present with confidence,
+                protect what matters most. No solicitor needed.
+              </p>
+              <div style={{
+                display: 'flex', gap: '16px', justifyContent: 'center',
+                flexWrap: 'wrap', marginBottom: '48px'
+              }}>
+                <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
+                  background: '#B8960C', color: 'white', fontWeight: 700,
+                  padding: '16px 36px', borderRadius: '8px', textDecoration: 'none', fontSize: '16px'
+                }}>Get Started — £20/month</a>
+                <a href="mailto:support@courtcraftadvocate.com" style={{
+                  background: 'transparent', color: '#B8960C', fontWeight: 700,
+                  padding: '16px 36px', borderRadius: '8px', textDecoration: 'none',
+                  fontSize: '16px', border: '2px solid #B8960C'
+                }}>Contact Us</a>
+              </div>
+              <div style={{ display: 'flex', gap: '32px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {[['5,000+', 'Parents Supported'], ['12,000+', 'Reports Generated'], ['94%', 'Success Rate']].map(([val, label]) => (
+                  <div key={label} style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '28px', fontWeight: 800, color: '#B8960C' }}>{val}</div>
+                    <div style={{ fontSize: '13px', color: '#607d9a' }}>{label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
     
-          {/* SERVICES */}
-          <section style={{ padding: '80px 40px', background: '#0d1117' }}>
+          {/* Video Section */}
+          <section style={{ background: '#0d1f35', padding: '48px 32px', textAlign: 'center' }}>
+            <h2 style={{ color: '#B8960C', fontSize: '24px', fontWeight: 700, marginBottom: '8px' }}>
+              See How CourtCraft Works
+            </h2>
+            <p style={{ color: '#607d9a', marginBottom: '28px', fontSize: '15px' }}>
+              Watch our 20-second overview
+            </p>
+            <div style={{
+              maxWidth: '760px', margin: '0 auto', borderRadius: '16px',
+              overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+              border: '2px solid #B8960C'
+            }}>
+              <video controls autoPlay muted style={{ width: '100%', display: 'block' }}>
+                <source src="/CourtCraft_Advocate_FINAL.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </section>
+    
+          {/* Stats */}
+          <div style={{ background: '#f0f4f8', padding: '40px 32px' }}>
+            <div className="stats-grid" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+              {STATS.map(stat => (
+                <div key={stat.label} style={{
+                  background: 'white', borderRadius: '12px', padding: '28px',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                  borderLeft: ('4px solid ' + stat.color)
+                }}>
+                  <div style={{ fontSize: '40px', fontWeight: 800, color: stat.color }}>{stat.value}</div>
+                  <div style={{ fontSize: '14px', color: '#666', marginTop: '4px' }}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+    
+          {/* Services */}
+          <section style={{ background: 'white', padding: '64px 32px' }}>
             <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-              <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', color: '#c9a84c', marginBottom: '12px' }}>OUR SERVICES</div>
-                <h2 style={{ fontSize: '40px', fontWeight: 800, margin: '0 0 16px' }}>Everything You Need to Fight Smart</h2>
-                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px', maxWidth: '560px', margin: '0 auto' }}>
-                  Comprehensive tools and support designed specifically for parents navigating family court proceedings.
-                </p>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
+              <h2 style={{ color: '#1a3a5c', fontSize: '28px', fontWeight: 700, textAlign: 'center', marginBottom: '8px' }}>
+                Everything You Need to Win Your Case
+              </h2>
+              <p style={{ color: '#607d9a', textAlign: 'center', marginBottom: '40px', fontSize: '15px' }}>
+                Professional tools built specifically for family court proceedings
+              </p>
+              <div className="services-grid">
                 {SERVICES.map(s => (
                   <div key={s.title} style={{
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: '16px', padding: '28px', transition: 'all 0.2s',
+                    background: '#f8fafc', borderRadius: '12px', padding: '24px',
+                    border: '1px solid #e2e8f0', transition: 'all 0.2s'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <span style={{ fontSize: '28px' }}>{s.icon}</span>
-                        <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>{s.title}</h3>
-                      </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                      <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1a3a5c' }}>{s.title}</h3>
                       <span style={{
-                        background: BADGE_COLORS[s.badge]?.bg || '#1e3a5f',
-                        color: BADGE_COLORS[s.badge]?.color || '#60a5fa',
                         padding: '3px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 700,
+                        background: BADGE_COLORS[s.badge].bg, color: BADGE_COLORS[s.badge].text,
+                        whiteSpace: 'nowrap', marginLeft: '8px'
                       }}>{s.badge}</span>
                     </div>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', lineHeight: 1.6, margin: '0 0 16px' }}>{s.desc}</p>
-                    <button style={{ background: 'transparent', border: 'none', color: '#c9a84c', fontSize: '14px', fontWeight: 600, cursor: 'pointer', padding: 0 }}>Learn more →</button>
+                    <p style={{ fontSize: '13px', color: '#607d9a', lineHeight: 1.6 }}>{s.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
           </section>
     
-          {/* HOW IT WORKS */}
-          <section style={{ padding: '80px 40px', background: '#0a0e1a' }}>
-            <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-              <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', color: '#c9a84c', marginBottom: '12px' }}>HOW IT WORKS</div>
-                <h2 style={{ fontSize: '40px', fontWeight: 800, margin: 0 }}>Get started in minutes...</h2>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+          {/* How It Works */}
+          <section style={{ background: '#f0f4f8', padding: '64px 32px' }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+              <h2 style={{ color: '#1a3a5c', fontSize: '28px', fontWeight: 700, textAlign: 'center', marginBottom: '40px' }}>
+                How It Works
+              </h2>
+              <div className="steps-grid">
                 {STEPS.map(step => (
                   <div key={step.num} style={{
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: '16px', padding: '32px',
+                    background: 'white', borderRadius: '12px', padding: '32px',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)'
                   }}>
-                    <div style={{ fontSize: '48px', fontWeight: 900, color: 'rgba(201,168,76,0.2)', marginBottom: '16px', lineHeight: 1 }}>{step.num}</div>
-                    <h3 style={{ fontSize: '18px', fontWeight: 700, margin: '0 0 10px' }}>{step.title}</h3>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', lineHeight: 1.6, margin: 0 }}>{step.desc}</p>
+                    <div style={{
+                      width: '48px', height: '48px', background: '#B8960C', borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'white', fontWeight: 800, fontSize: '16px', marginBottom: '16px'
+                    }}>{step.num}</div>
+                    <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#1a3a5c', marginBottom: '8px' }}>{step.title}</h3>
+                    <p style={{ fontSize: '14px', color: '#607d9a', lineHeight: 1.6 }}>{step.desc}</p>
                   </div>
                 ))}
               </div>
-              <div style={{ textAlign: 'center', marginTop: '48px' }}>
-                <a href={TRIAL_LINK} target="_blank" rel="noopener noreferrer" style={{
-                  background: 'linear-gradient(135deg, #c9a84c, #a0722a)',
-                  color: 'white', padding: '16px 40px', borderRadius: '10px',
-                  fontWeight: 700, fontSize: '16px', textDecoration: 'none', display: 'inline-block',
-                }}>Get Started Today</a>
+            </div>
+          </section>
+    
+          {/* Cases Table */}
+          <section style={{ background: 'white', padding: '64px 32px' }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+                <h2 style={{ color: '#1a3a5c', fontSize: '22px', fontWeight: 700 }}>Recent Cases</h2>
+                <button style={{
+                  background: '#1a3a5c', color: 'white', border: 'none',
+                  borderRadius: '8px', padding: '10px 20px', fontSize: '14px',
+                  fontWeight: 600, cursor: 'pointer'
+                }}>+ New Case</button>
+              </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '500px' }}>
+                  <thead>
+                    <tr style={{ background: '#f8fafc' }}>
+                      {['Case ID', 'Client', 'Type', 'Status', 'Date'].map(h => (
+                        <th key={h} style={{
+                          padding: '12px 16px', textAlign: 'left', fontSize: '13px',
+                          color: '#666', fontWeight: 600, borderBottom: '1px solid #e8ecf0'
+                        }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CASES.map((c, i) => (
+                      <tr key={c.id} style={{ background: i % 2 === 0 ? 'white' : '#fafbfc' }}>
+                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#B8960C', fontWeight: 600 }}>{c.id}</td>
+                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#1a3a5c', fontWeight: 500 }}>{c.client}</td>
+                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#555' }}>{c.type}</td>
+                        <td style={{ padding: '12px 16px' }}>
+                          <span style={{
+                            padding: '3px 10px', borderRadius: '20px', fontSize: '12px', fontWeight: 600,
+                            background: STATUS_COLORS[c.status] ? STATUS_COLORS[c.status].bg : '#f1f5f9',
+                            color: STATUS_COLORS[c.status] ? STATUS_COLORS[c.status].text : '#475569'
+                          }}>{c.status}</span>
+                        </td>
+                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#555' }}>{c.date}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </section>
     
-          {/* CTA BANNER */}
-          <section style={{
-            background: 'linear-gradient(135deg, #0d1f35, #1a3a5c)',
-            padding: '80px 40px', textAlign: 'center',
-          }}>
-            <h2 style={{ fontSize: '36px', fontWeight: 800, margin: '0 0 12px' }}>Your Children Are Counting On You</h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', maxWidth: '520px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-              Don't navigate family court alone. Get the professional tools and AI-powered guidance you need to present your case with confidence.
-            </p>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '16px' }}>
-              <a href="mailto:support@courtcraftadvocate.com" style={{
-                background: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.4)',
-                padding: '14px 32px', borderRadius: '10px', fontWeight: 600, fontSize: '16px', textDecoration: 'none',
-              }}>Contact Us Today</a>
-              <a href={TRIAL_LINK} target="_blank" rel="noopener noreferrer" style={{
-                background: 'linear-gradient(135deg, #c9a84c, #a0722a)',
-                color: 'white', padding: '14px 32px', borderRadius: '10px',
-                fontWeight: 700, fontSize: '16px', textDecoration: 'none',
-              }}>Start Free Trial</a>
-            </div>
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>7-day free trial. £20/month. Cancel anytime.</div>
-          </section>
-    
-          {/* TESTIMONIALS */}
-          <section style={{ padding: '80px 40px', background: '#0d1117' }}>
-            <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-              <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', color: '#c9a84c', marginBottom: '12px' }}>TESTIMONIALS</div>
-                <h2 style={{ fontSize: '40px', fontWeight: 800, margin: 0 }}>Trusted by 5,000+ Parents</h2>
-              </div>
-              <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '48px' }}>
-                {TESTIMONIALS.map((t, i) => (
-                  <div key={i} style={{
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: '16px', padding: '32px', maxWidth: '520px', flex: '1',
-                  }}>
-                    <div style={{ fontSize: '48px', color: '#c9a84c', lineHeight: 1, marginBottom: '16px' }}>"</div>
-                    <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', lineHeight: 1.7, margin: '0 0 24px', fontStyle: 'italic' }}>"{t.text}"</p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #c9a84c, #a0722a)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '18px' }}>{t.initial}</div>
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: '15px' }}>{t.name}</div>
-                        <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>{t.location}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', justifyContent: 'center' }}>
-                  {[['4.9/5', 'Average Rating'], ['500+', '5-Star Reviews'], ['98%', 'Would Recommend']].map(([val, lbl]) => (
-                    <div key={lbl} style={{ textAlign: 'center', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '20px 32px' }}>
-                      <div style={{ fontSize: '32px', fontWeight: 800, color: '#c9a84c' }}>{val}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', marginTop: '4px' }}>{lbl}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-    
-          {/* PRICING */}
-          <section style={{ padding: '80px 40px', background: '#0a0e1a' }}>
+          {/* Pricing */}
+          <section style={{ background: '#f0f4f8', padding: '64px 32px' }}>
             <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-              <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', color: '#c9a84c', marginBottom: '12px' }}>SIMPLE PRICING</div>
-              <h2 style={{ fontSize: '40px', fontWeight: 800, margin: '0 0 12px' }}>Invest in Your Children's Future</h2>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px', marginBottom: '56px' }}>One simple plan with everything you need. Start with a 7-day free trial.</p>
-    
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
-                {/* Free */}
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '40px', textAlign: 'left' }}>
-                  <div style={{ fontSize: '16px', fontWeight: 700, marginBottom: '8px' }}>Free Access</div>
-                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '24px' }}>Educational resources only</div>
-                  <div style={{ marginBottom: '8px' }}>
-                    <span style={{ fontSize: '48px', fontWeight: 900 }}>£0</span>
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '16px' }}>/month</span>
-                  </div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.4)', margin: '24px 0 16px' }}>INCLUDES</div>
-                  {FREE_FEATURES.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>
-                      <span style={{ color: '#4ade80' }}>✓</span> {f}
+              <h2 style={{ color: '#1a3a5c', fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>Simple, Honest Pricing</h2>
+              <p style={{ color: '#607d9a', marginBottom: '40px', fontSize: '15px' }}>No hidden fees. Cancel anytime.</p>
+              <div className="pricing-grid">
+                <div style={{
+                  background: 'white', borderRadius: '16px', padding: '36px',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)', textAlign: 'left'
+                }}>
+                  <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#1a3a5c', marginBottom: '8px' }}>Free</h3>
+                  <div style={{ fontSize: '36px', fontWeight: 800, color: '#1a3a5c', marginBottom: '20px' }}>£0<span style={{ fontSize: '16px', fontWeight: 400, color: '#607d9a' }}>/month</span></div>
+                  {['Communication Logger', 'Financial Tracker', 'McKenzie Friend Guide', 'Legal Glossary', 'Emergency Checklist'].map(f => (
+                    <div key={f} style={{ display: 'flex', gap: '10px', marginBottom: '10px', fontSize: '14px', color: '#555' }}>
+                      <span style={{ color: '#166534', fontWeight: 700 }}>✓</span>{f}
                     </div>
                   ))}
-                  {FREE_LOCKED.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', fontSize: '14px', color: 'rgba(255,255,255,0.3)' }}>
-                      <span>✗</span> {f}
-                    </div>
-                  ))}
-                  <button style={{ marginTop: '24px', width: '100%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white', padding: '14px', borderRadius: '10px', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>Browse Resources</button>
+                  <a href="/register" style={{
+                    display: 'block', textAlign: 'center', marginTop: '24px',
+                    background: '#f0f4f8', color: '#1a3a5c', fontWeight: 700,
+                    padding: '12px', borderRadius: '8px', textDecoration: 'none', fontSize: '15px'
+                  }}>Get Started Free</a>
                 </div>
-    
-                {/* Pro */}
-                <div style={{ background: 'linear-gradient(135deg, #0d1f35, #1a3a5c)', border: '2px solid #c9a84c', borderRadius: '20px', padding: '40px', textAlign: 'left', position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #c9a84c, #a0722a)', color: 'white', padding: '4px 20px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, whiteSpace: 'nowrap' }}>MOST POPULAR</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700, marginBottom: '8px' }}>Pro Subscriber</div>
-                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '24px' }}>Full access to all tools</div>
-                  <div style={{ marginBottom: '4px' }}>
-                    <span style={{ fontSize: '48px', fontWeight: 900, color: '#c9a84c' }}>£20</span>
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '16px' }}>/month</span>
-                  </div>
-                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '24px' }}>7-day free trial included</div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.4)', margin: '0 0 16px' }}>INCLUDES</div>
-                  {PRO_FEATURES.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', fontSize: '14px', color: 'rgba(255,255,255,0.9)' }}>
-                      <span style={{ color: '#c9a84c' }}>✓</span> {f}
+                <div style={{
+                  background: 'linear-gradient(135deg, #1a3a5c 0%, #0d1f35 100%)',
+                  borderRadius: '16px', padding: '36px', textAlign: 'left',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)', position: 'relative', overflow: 'hidden'
+                }}>
+                  <div style={{
+                    position: 'absolute', top: '16px', right: '16px',
+                    background: '#B8960C', color: 'white', fontSize: '11px',
+                    fontWeight: 700, padding: '4px 12px', borderRadius: '20px'
+                  }}>MOST POPULAR</div>
+                  <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'white', marginBottom: '8px' }}>Pro</h3>
+                  <div style={{ fontSize: '36px', fontWeight: 800, color: '#B8960C', marginBottom: '20px' }}>£20<span style={{ fontSize: '16px', fontWeight: 400, color: '#a0b4c8' }}>/month</span></div>
+                  {['Everything in Free', 'Case Timeline Builder', 'Court Report Generator', 'Evidence Organiser', 'Hearing Prep Assistant', 'Safeguarding Reports', 'Contact Order Tracker'].map(f => (
+                    <div key={f} style={{ display: 'flex', gap: '10px', marginBottom: '10px', fontSize: '14px', color: '#a0b4c8' }}>
+                      <span style={{ color: '#B8960C', fontWeight: 700 }}>✓</span>{f}
                     </div>
                   ))}
-                  <a href={TRIAL_LINK} target="_blank" rel="noopener noreferrer" style={{
-                    marginTop: '24px', display: 'block', width: '100%', background: 'linear-gradient(135deg, #c9a84c, #a0722a)',
-                    color: 'white', padding: '14px', borderRadius: '10px', fontSize: '15px',
-                    fontWeight: 700, textDecoration: 'none', textAlign: 'center', boxSizing: 'border-box',
-                  }}>Start 7-Day Free Trial</a>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginTop: '12px' }}>Cancel anytime. No hidden fees.</div>
+                  <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
+                    display: 'block', textAlign: 'center', marginTop: '24px',
+                    background: '#B8960C', color: 'white', fontWeight: 700,
+                    padding: '12px', borderRadius: '8px', textDecoration: 'none', fontSize: '15px'
+                  }}>Get Started — £20/month</a>
                 </div>
-              </div>
-    
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
-                Prices shown in GBP. Also available in USD ($25/mo) and EUR (€23/mo).
               </div>
             </div>
           </section>
     
-          {/* FINAL CTA */}
-          <section style={{ padding: '80px 40px', background: '#0d1117', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '36px', fontWeight: 800, margin: '0 0 12px' }}>Ready to Fight Smart?</h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', maxWidth: '500px', margin: '0 auto 32px', lineHeight: 1.6 }}>
-              Join thousands of parents who have used CourtCraft Advocate to navigate family court with confidence and achieve the best outcomes for their children.
+          {/* Footer CTA */}
+          <section style={{
+            background: 'linear-gradient(135deg, #0d1f35 0%, #1a3a5c 100%)',
+            padding: '64px 32px', textAlign: 'center'
+          }}>
+            <h2 style={{ color: '#B8960C', fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>
+              Ready to Take Control of Your Case?
+            </h2>
+            <p style={{ color: '#a0b4c8', fontSize: '16px', marginBottom: '32px' }}>
+              Join thousands of families who trust CourtCraft Advocate — just £20/month.
             </p>
-            <a href={TRIAL_LINK} target="_blank" rel="noopener noreferrer" style={{
-              background: 'linear-gradient(135deg, #c9a84c, #a0722a)',
-              color: 'white', padding: '16px 44px', borderRadius: '10px',
-              fontWeight: 700, fontSize: '17px', textDecoration: 'none', display: 'inline-block', marginBottom: '12px',
-            }}>Start Your 7-Day Free Trial</a>
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '8px' }}>No credit card required. Full access to all features.</div>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
+                background: '#B8960C', color: 'white', fontWeight: 700,
+                padding: '16px 36px', borderRadius: '8px', textDecoration: 'none', fontSize: '16px'
+              }}>Get Started — £20/month</a>
+              <a href="mailto:support@courtcraftadvocate.com" style={{
+                background: 'transparent', color: '#B8960C', fontWeight: 700,
+                padding: '16px 36px', borderRadius: '8px', textDecoration: 'none',
+                fontSize: '16px', border: '2px solid #B8960C'
+              }}>Contact Us</a>
+            </div>
+            <p style={{ color: '#607d9a', fontSize: '14px', marginTop: '24px' }}>support@courtcraftadvocate.com</p>
+          </section>
     
-            <div style={{ maxWidth: '700px', margin: '48px auto 0', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '28px', textAlign: 'left' }}>
-              <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.4)', marginBottom: '16px' }}>IMPORTANT LEGAL DISCLAIMERS</div>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', lineHeight: 1.7, margin: 0 }}>
-                CourtCraft Advocate provides McKenzie Friend services only. We are NOT solicitors or barristers. All advice and guidance should be verified with a legally qualified legal professional. McKenzie Friends have rights of audience in family courts but cannot conduct litigation or provide legal advice in the traditional sense.<br /><br />
-                <strong style={{ color: 'rgba(255,255,255,0.6)' }}>GDPR Compliance:</strong> All personal data is processed in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018. You may request deletion of your data at any time.
+          {/* Footer */}
+          <footer style={{ background: '#080f1a', padding: '48px 32px 24px' }}>
+            <div className="footer-grid" style={{ maxWidth: '1200px', margin: '0 auto 32px' }}>
+              <div>
+                <div style={{ color: '#B8960C', fontWeight: 700, fontSize: '16px', marginBottom: '16px' }}>⚖️ CourtCraft Advocate</div>
+                <p style={{ color: '#607d9a', fontSize: '13px', lineHeight: 1.7 }}>
+                  Empowering families to navigate the family court system with confidence and professionalism.
+                </p>
+              </div>
+              <div>
+                <h4 style={{ color: 'white', fontWeight: 600, marginBottom: '16px', fontSize: '14px' }}>Quick Links</h4>
+                {['Dashboard', 'Cases', 'Documents', 'Calendar'].map(l => (
+                  <div key={l} style={{ marginBottom: '8px' }}>
+                    <a href="#" style={{ color: '#607d9a', textDecoration: 'none', fontSize: '13px' }}>{l}</a>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <h4 style={{ color: 'white', fontWeight: 600, marginBottom: '16px', fontSize: '14px' }}>Legal</h4>
+                {['Privacy Policy', 'Terms of Service', 'GDPR Compliance', 'Cookie Policy'].map(l => (
+                  <div key={l} style={{ marginBottom: '8px' }}>
+                    <a href="#" style={{ color: '#607d9a', textDecoration: 'none', fontSize: '13px' }}>{l}</a>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <h4 style={{ color: 'white', fontWeight: 600, marginBottom: '16px', fontSize: '14px' }}>Contact</h4>
+                <p style={{ color: '#607d9a', fontSize: '13px', marginBottom: '8px' }}>support@courtcraftadvocate.com</p>
+                <p style={{ color: '#607d9a', fontSize: '12px', lineHeight: 1.6 }}>
+                  CourtCraft Advocate is a McKenzie Friend support platform. We are not solicitors and do not provide legal advice.
+                </p>
+              </div>
+            </div>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '20px', textAlign: 'center' }}>
+              <p style={{ color: '#3a4a5c', fontSize: '12px' }}>
+                © 2024 CourtCraft Advocate. All rights reserved. McKenzie Friend services are not regulated legal advice.
               </p>
             </div>
-          </section>
-    
-          {/* FOOTER */}
-          <footer style={{ background: '#060810', padding: '60px 40px 32px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                    <span style={{ fontSize: '20px' }}>⚖️</span>
-                    <span style={{ fontWeight: 800, fontSize: '16px', color: '#c9a84c' }}>CourtCraft<span style={{ color: 'white' }}>Advocate</span></span>
-                  </div>
-                  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: 1.7, marginBottom: '16px' }}>
-                    Professional McKenzie Friend support empowering parents through divorce and custody proceedings with confidence.
-                  </p>
-                  <a href="mailto:support@courtcraftadvocate.com" style={{ color: '#c9a84c', fontSize: '14px', textDecoration: 'none' }}>support@courtcraftadvocate.com</a>
-                </div>
-                <div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.4)', marginBottom: '16px' }}>QUICK LINKS</div>
-                  {['Home', 'Services', 'Pricing', 'Resources', 'Contact Us', 'FAQs'].map(l => (
-                    <div key={l} style={{ marginBottom: '10px' }}><a href="#" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', textDecoration: 'none' }}>{l}</a></div>
-                  ))}
-                </div>
-                <div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.4)', marginBottom: '16px' }}>LEGAL & POLICIES</div>
-                  {['Terms of Service', 'Privacy Policy', 'GDPR Policy', 'Cookie Policy', 'Copyright & Legal', 'Complaints Procedure', 'Data Deletion Request'].map(l => (
-                    <div key={l} style={{ marginBottom: '10px' }}><a href="#" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', textDecoration: 'none' }}>{l}</a></div>
-                  ))}
-                </div>
-                <div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', color: 'rgba(255,255,255,0.4)', marginBottom: '16px' }}>SUBSCRIBER TOOLS</div>
-                  {['Dashboard', 'AI Legal Assistant', 'Court Report Generator', 'Child Contact Tracker', 'Document Manager', 'Billing & Subscription'].map(l => (
-                    <div key={l} style={{ marginBottom: '10px' }}><a href="#" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', textDecoration: 'none' }}>{l}</a></div>
-                  ))}
-                </div>
-              </div>
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-                <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px' }}>
-                  © 2026 CourtCraft Advocate™. All Rights Reserved. CourtCraft Advocate is a registered trademark.
-                </div>
-                <div style={{ display: 'flex', gap: '16px' }}>
-                  {['SSL Encrypted', 'GDPR Compliant'].map(b => (
-                    <div key={b} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', padding: '4px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 700 }}>{b}</div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </footer>
+    
         </div>
       )
     }
