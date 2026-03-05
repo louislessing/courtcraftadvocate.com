@@ -1,4 +1,4 @@
-clean_app_jsx = """import { useState } from 'react'
+import { useState } from 'react'
 
 const NAV_ITEMS = ['Dashboard', 'Cases', 'Documents', 'Calendar', 'Clients', 'Settings']
 
@@ -49,17 +49,10 @@ export default function App() {
             ⚖️ Get full access to CourtCraft Advocate for just <strong>£20/month</strong> — No solicitor needed!
           </span>
           <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
-            background: 'white',
-            color: '#1a3a5c',
-            fontWeight: 700,
-            padding: '6px 18px',
-            borderRadius: '20px',
-            textDecoration: 'none',
-            fontSize: '14px',
-            whiteSpace: 'nowrap'
-          }}>
-            Get Started — £20/month
-          </a>
+            background: 'white', color: '#1a3a5c', fontWeight: 700,
+            padding: '6px 18px', borderRadius: '20px', textDecoration: 'none',
+            fontSize: '14px', whiteSpace: 'nowrap'
+          }}>Get Started — £20/month</a>
           <button onClick={() => setBannerVisible(false)} style={{
             position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)',
             background: 'none', border: 'none', color: 'white', fontSize: '22px',
@@ -71,30 +64,21 @@ export default function App() {
       {/* Header */}
       <header style={{
         background: 'linear-gradient(135deg, #0d1f35 0%, #1a3a5c 100%)',
-        padding: '0 32px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: '64px',
+        padding: '0 32px', display: 'flex', alignItems: 'center',
+        justifyContent: 'space-between', height: '64px',
         boxShadow: '0 2px 12px rgba(0,0,0,0.3)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ fontSize: '28px' }}>⚖️</span>
-          <span style={{ color: '#B8960C', fontWeight: 700, fontSize: '20px', letterSpacing: '0.5px' }}>
-            CourtCraft Advocate
-          </span>
+          <span style={{ color: '#B8960C', fontWeight: 700, fontSize: '20px' }}>CourtCraft Advocate</span>
         </div>
         <nav style={{ display: 'flex', gap: '4px' }}>
           {NAV_ITEMS.map(item => (
             <button key={item} onClick={() => setActiveNav(item)} style={{
               background: activeNav === item ? 'rgba(184,150,12,0.2)' : 'transparent',
               color: activeNav === item ? '#B8960C' : '#a0b4c8',
-              border: 'none',
-              padding: '8px 14px',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontWeight: 500,
-              fontSize: '14px'
+              border: 'none', padding: '8px 14px', borderRadius: '6px',
+              cursor: 'pointer', fontWeight: 500, fontSize: '14px'
             }}>{item}</button>
           ))}
         </nav>
@@ -103,8 +87,7 @@ export default function App() {
       {/* Hero Video Section */}
       <section style={{
         background: 'linear-gradient(135deg, #0d1f35 0%, #1a3a5c 100%)',
-        padding: '48px 32px',
-        textAlign: 'center'
+        padding: '48px 32px', textAlign: 'center'
       }}>
         <h1 style={{ color: '#B8960C', fontSize: '30px', fontWeight: 700, margin: '0 0 8px' }}>
           Empowering Families. Securing Futures.
@@ -113,20 +96,11 @@ export default function App() {
           Professional McKenzie Friend support at every stage of your family court journey
         </p>
         <div style={{
-          maxWidth: '760px',
-          margin: '0 auto',
-          borderRadius: '16px',
-          overflow: 'hidden',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+          maxWidth: '760px', margin: '0 auto', borderRadius: '16px',
+          overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
           border: '2px solid #B8960C'
         }}>
-          <video
-            controls
-            autoPlay
-            muted
-            style={{ width: '100%', display: 'block' }}
-            poster="/CourtCraft_Advocate_FINAL.mp4"
-          >
+          <video controls autoPlay muted style={{ width: '100%', display: 'block' }}>
             <source src="/CourtCraft_Advocate_FINAL.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -135,31 +109,23 @@ export default function App() {
           <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" style={{
             background: '#B8960C', color: 'white', fontWeight: 700,
             padding: '14px 32px', borderRadius: '8px', textDecoration: 'none', fontSize: '16px'
-          }}>
-            Get Started — £20/month
-          </a>
+          }}>Get Started — £20/month</a>
           <a href="mailto:support@courtcraftadvocate.com" style={{
             background: 'transparent', color: '#B8960C', fontWeight: 700,
             padding: '14px 32px', borderRadius: '8px', textDecoration: 'none',
             fontSize: '16px', border: '2px solid #B8960C'
-          }}>
-            Contact Us
-          </a>
+          }}>Contact Us</a>
         </div>
       </section>
 
       {/* Main Dashboard */}
       <main style={{ padding: '40px 32px', maxWidth: '1200px', margin: '0 auto' }}>
 
-        {/* Stats Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '32px' }}>
           {STATS.map(stat => (
             <div key={stat.label} style={{
-              background: 'white',
-              borderRadius: '12px',
-              padding: '28px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-              borderLeft: `4px solid ${stat.color}`
+              background: 'white', borderRadius: '12px', padding: '28px',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.06)', borderLeft: `4px solid ${stat.color}`
             }}>
               <div style={{ fontSize: '40px', fontWeight: 800, color: stat.color }}>{stat.value}</div>
               <div style={{ fontSize: '14px', color: '#666', marginTop: '4px' }}>{stat.label}</div>
@@ -167,29 +133,16 @@ export default function App() {
           ))}
         </div>
 
-        {/* Cases Table */}
-        <div style={{
-          background: 'white', borderRadius: '12px',
-          padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-          marginBottom: '32px'
-        }}>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: '32px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h2 style={{ color: '#1a3a5c', fontSize: '18px', fontWeight: 700, margin: 0 }}>Recent Cases</h2>
-            <button style={{
-              background: '#1a3a5c', color: 'white', border: 'none',
-              borderRadius: '8px', padding: '8px 18px', fontSize: '14px',
-              fontWeight: 600, cursor: 'pointer'
-            }}>+ New Case</button>
+            <button style={{ background: '#1a3a5c', color: 'white', border: 'none', borderRadius: '8px', padding: '8px 18px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>+ New Case</button>
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ background: '#f8fafc' }}>
                 {['Case ID', 'Client', 'Type', 'Status', 'Date'].map(h => (
-                  <th key={h} style={{
-                    padding: '12px 16px', textAlign: 'left',
-                    fontSize: '13px', color: '#666', fontWeight: 600,
-                    borderBottom: '1px solid #e8ecf0'
-                  }}>{h}</th>
+                  <th key={h} style={{ padding: '12px 16px', textAlign: 'left', fontSize: '13px', color: '#666', fontWeight: 600, borderBottom: '1px solid #e8ecf0' }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -213,11 +166,9 @@ export default function App() {
           </table>
         </div>
 
-        {/* Footer CTA */}
         <div style={{
           background: 'linear-gradient(135deg, #0d1f35 0%, #1a3a5c 100%)',
-          borderRadius: '16px', padding: '48px', textAlign: 'center',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+          borderRadius: '16px', padding: '48px', textAlign: 'center'
         }}>
           <h2 style={{ color: '#B8960C', fontSize: '26px', fontWeight: 700, margin: '0 0 8px' }}>
             Ready to Take Control of Your Case?
@@ -236,33 +187,10 @@ export default function App() {
               fontSize: '16px', border: '2px solid #B8960C'
             }}>Contact Us</a>
           </div>
-          <p style={{ color: '#607d9a', fontSize: '14px', marginTop: '16px' }}>
-            support@courtcraftadvocate.com
-          </p>
+          <p style={{ color: '#607d9a', fontSize: '14px', marginTop: '16px' }}>support@courtcraftadvocate.com</p>
         </div>
 
       </main>
     </div>
   )
 }
-"""
-
-with open('App_CLEAN.jsx', 'w', encoding='utf-8') as f:
-    f.write(clean_app_jsx)
-
-print(f"✅ Clean App.jsx prepared — {len(clean_app_jsx)} characters")
-print(f"✅ Lines: {clean_app_jsx.count(chr(10))}")
-print("\n--- FIRST 5 LINES (verify it's clean JSX) ---")
-for line in clean_app_jsx.split('\n')[:5]:
-    print(repr(line))
-
-# Output:
-✅ Clean App.jsx prepared — 11632 characters
-✅ Lines: 247
---- FIRST 5 LINES (verify it's clean JSX) ---
-"import { useState } from 'react'"
-'    '
-"    const NAV_ITEMS = ['Dashboard', 'Cases', 'Documents', 'Calendar', 'Clients', 'Settings']"
-'    '
-'    const STATS = ['
-
