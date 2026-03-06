@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-    
+import React, { useState } from 'react'    
     const GOLD = '#B8960C'
     const NAVY = '#0a1628'
     const NAVY2 = '#0d1f3c'
