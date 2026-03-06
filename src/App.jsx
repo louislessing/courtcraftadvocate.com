@@ -1,20 +1,139 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
     
-    const PAYMENT_LINK = 'https://buy.stripe.com/courtcraftadvocate'
+    const GOLD = '#B8960C'
+    const NAVY = '#0a1628'
+    const NAVY2 = '#0d1f3c'
+    const NAVY3 = '#1a2f4e'
+    const WHITE = '#ffffff'
+    const GRAY = '#94a3b8'
+    const LIGHT = '#e2e8f0'
+    
+    const styles = {
+      root: { fontFamily: "'Segoe UI', Arial, sans-serif", background: NAVY, color: WHITE, margin: 0, padding: 0 },
+      // NAV
+      nav: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, background: 'rgba(10,22,40,0.97)', borderBottom: '1px solid #1e3a5c', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 70 },
+      navLogo: { display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' },
+      navLogoText: { color: GOLD, fontWeight: 700, fontSize: 20, letterSpacing: 1 },
+      navLinks: { display: 'flex', alignItems: 'center', gap: 30 },
+      navLink: { color: LIGHT, textDecoration: 'none', fontSize: 14, fontWeight: 500 },
+      navBtn: { background: GOLD, color: NAVY, border: 'none', borderRadius: 6, padding: '9px 20px', fontWeight: 700, fontSize: 14, cursor: 'pointer' },
+      navBtnOutline: { background: 'transparent', color: GOLD, border: '1px solid ' + GOLD, borderRadius: 6, padding: '8px 18px', fontWeight: 600, fontSize: 14, cursor: 'pointer', marginRight: 10 },
+      hamburger: { display: 'none', flexDirection: 'column', gap: 5, cursor: 'pointer', background: 'none', border: 'none', padding: 5 },
+      hamburgerLine: { width: 25, height: 2, background: WHITE, borderRadius: 2 },
+      mobileMenu: { position: 'fixed', top: 70, left: 0, right: 0, background: NAVY2, zIndex: 999, padding: '20px 30px', display: 'flex', flexDirection: 'column', gap: 15, borderBottom: '1px solid #1e3a5c' },
+      mobileLink: { color: LIGHT, textDecoration: 'none', fontSize: 16, padding: '8px 0', borderBottom: '1px solid #1e3a5c' },
+      // BANNER
+      banner: { background: GOLD, color: NAVY, textAlign: 'center', padding: '10px 20px', fontSize: 14, fontWeight: 700, marginTop: 70 },
+      // HERO
+      hero: { background: 'linear-gradient(135deg, ' + NAVY + ' 0%, ' + NAVY2 + ' 50%, #0f2744 100%)', padding: '80px 40px 60px', textAlign: 'center', minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' },
+      heroEyebrow: { color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 20 },
+      heroTitle: { fontSize: 54, fontWeight: 900, lineHeight: 1.1, marginBottom: 24, color: WHITE, textTransform: 'uppercase', maxWidth: 900 },
+      heroTitle2: { color: GOLD },
+      heroSub: { fontSize: 18, color: GRAY, maxWidth: 600, marginBottom: 32, lineHeight: 1.7 },
+      heroBadge: { background: 'rgba(184,150,12,0.15)', border: '1px solid ' + GOLD, color: GOLD, borderRadius: 20, padding: '6px 18px', fontSize: 13, fontWeight: 700, marginBottom: 32, display: 'inline-block' },
+      heroBtns: { display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 20 },
+      btnPrimary: { background: GOLD, color: NAVY, border: 'none', borderRadius: 8, padding: '14px 32px', fontWeight: 700, fontSize: 16, cursor: 'pointer' },
+      btnSecondary: { background: 'transparent', color: WHITE, border: '2px solid #334155', borderRadius: 8, padding: '14px 32px', fontWeight: 600, fontSize: 16, cursor: 'pointer' },
+      heroNote: { color: GRAY, fontSize: 13 },
+      // STATS
+      stats: { background: NAVY2, padding: '50px 40px', display: 'flex', justifyContent: 'center', gap: 60, flexWrap: 'wrap', borderTop: '1px solid #1e3a5c', borderBottom: '1px solid #1e3a5c' },
+      statItem: { textAlign: 'center' },
+      statNum: { fontSize: 42, fontWeight: 900, color: GOLD },
+      statLabel: { fontSize: 14, color: GRAY, marginTop: 4 },
+      // VIDEO
+      videoSection: { background: NAVY, padding: '70px 40px', textAlign: 'center' },
+      videoLabel: { color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 3, marginBottom: 16 },
+      videoBox: { maxWidth: 800, margin: '0 auto', borderRadius: 16, overflow: 'hidden', border: '2px solid #1e3a5c', position: 'relative', background: '#000' },
+      video: { width: '100%', display: 'block' },
+      // TRUST
+      trust: { background: NAVY2, padding: '30px 40px', display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap', borderTop: '1px solid #1e3a5c' },
+      trustItem: { color: GRAY, fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 },
+      trustDot: { width: 8, height: 8, borderRadius: '50%', background: GOLD, display: 'inline-block' },
+      // SERVICES
+      services: { background: NAVY, padding: '80px 40px' },
+      sectionEyebrow: { color: GOLD, fontSize: 13, fontWeight: 700, letterSpacing: 3, textAlign: 'center', marginBottom: 16 },
+      sectionTitle: { fontSize: 38, fontWeight: 800, textAlign: 'center', marginBottom: 16, color: WHITE },
+      sectionSub: { color: GRAY, textAlign: 'center', maxWidth: 600, margin: '0 auto 50px', fontSize: 16, lineHeight: 1.7 },
+      grid3: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' },
+      card: { background: NAVY2, border: '1px solid #1e3a5c', borderRadius: 12, padding: 28 },
+      cardTitle: { fontSize: 18, fontWeight: 700, color: WHITE, marginBottom: 10 },
+      cardDesc: { fontSize: 14, color: GRAY, lineHeight: 1.6, marginBottom: 16 },
+      badge: { fontSize: 11, fontWeight: 700, borderRadius: 4, padding: '3px 10px', display: 'inline-block' },
+      badgeSub: { background: 'rgba(184,150,12,0.15)', color: GOLD, border: '1px solid rgba(184,150,12,0.3)' },
+      badgeFree: { background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' },
+      badgeAll: { background: 'rgba(96,165,250,0.1)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.3)' },
+      cardLink: { color: GOLD, fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: 8 },
+      // HOW IT WORKS
+      how: { background: NAVY2, padding: '80px 40px' },
+      grid2: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 30, maxWidth: 900, margin: '0 auto' },
+      stepCard: { background: NAVY3, border: '1px solid #1e3a5c', borderRadius: 12, padding: 28 },
+      stepNum: { fontSize: 48, fontWeight: 900, color: 'rgba(184,150,12,0.2)', lineHeight: 1, marginBottom: 12 },
+      stepTitle: { fontSize: 18, fontWeight: 700, color: WHITE, marginBottom: 10 },
+      stepDesc: { fontSize: 14, color: GRAY, lineHeight: 1.6 },
+      centerBtn: { textAlign: 'center', marginTop: 40 },
+      // CTA BAND
+      ctaBand: { background: 'linear-gradient(135deg, #0f2744 0%, #1a3a5c 100%)', padding: '70px 40px', textAlign: 'center', borderTop: '1px solid #1e3a5c', borderBottom: '1px solid #1e3a5c' },
+      ctaTitle: { fontSize: 36, fontWeight: 800, color: WHITE, marginBottom: 16 },
+      ctaSub: { color: GRAY, fontSize: 16, maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.7 },
+      ctaBtns: { display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' },
+      // TESTIMONIAL
+      testimonial: { background: NAVY, padding: '80px 40px', textAlign: 'center' },
+      testimonialBox: { background: NAVY2, border: '1px solid #1e3a5c', borderRadius: 16, padding: '40px', maxWidth: 700, margin: '0 auto' },
+      stars: { color: GOLD, fontSize: 22, marginBottom: 20 },
+      quote: { fontSize: 18, color: LIGHT, fontStyle: 'italic', lineHeight: 1.8, marginBottom: 24 },
+      author: { color: GOLD, fontWeight: 700, fontSize: 15 },
+      authorSub: { color: GRAY, fontSize: 13, marginTop: 4 },
+      // PRICING
+      pricing: { background: NAVY2, padding: '80px 40px' },
+      grid2c: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 30, maxWidth: 800, margin: '0 auto' },
+      priceFree: { background: NAVY3, border: '1px solid #1e3a5c', borderRadius: 16, padding: 36 },
+      pricePro: { background: NAVY3, border: '2px solid ' + GOLD, borderRadius: 16, padding: 36, position: 'relative' },
+      popularBadge: { position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: GOLD, color: NAVY, fontSize: 11, fontWeight: 800, borderRadius: 20, padding: '4px 16px', whiteSpace: 'nowrap' },
+      planName: { fontSize: 20, fontWeight: 700, color: WHITE, marginBottom: 8 },
+      planDesc: { fontSize: 13, color: GRAY, marginBottom: 20 },
+      planPrice: { fontSize: 42, fontWeight: 900, color: WHITE, marginBottom: 4 },
+      planPer: { fontSize: 14, color: GRAY, marginBottom: 24 },
+      planFeatures: { listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 },
+      featureOn: { fontSize: 14, color: LIGHT, display: 'flex', alignItems: 'center', gap: 10 },
+      featureOff: { fontSize: 14, color: '#475569', display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'line-through' },
+      checkOn: { color: '#22c55e', fontWeight: 700, fontSize: 16 },
+      checkOff: { color: '#475569', fontWeight: 700, fontSize: 16 },
+      planNote: { color: GRAY, fontSize: 12, textAlign: 'center', marginTop: 12 },
+      priceNote: { color: GRAY, fontSize: 13, textAlign: 'center', marginTop: 24 },
+      // FOOTER CTA
+      footerCta: { background: 'linear-gradient(135deg, ' + NAVY + ' 0%, #0f2744 100%)', padding: '70px 40px', textAlign: 'center', borderTop: '1px solid #1e3a5c' },
+      footerCtaTitle: { fontSize: 34, fontWeight: 800, color: WHITE, marginBottom: 16 },
+      footerCtaSub: { color: GRAY, fontSize: 15, maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.7 },
+      footerCtaNote: { color: GRAY, fontSize: 13, marginTop: 16 },
+      // LEGAL
+      legal: { background: '#060e1a', padding: '40px', borderTop: '1px solid #1e3a5c' },
+      legalTitle: { color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 2, marginBottom: 16 },
+      legalText: { color: '#64748b', fontSize: 12, lineHeight: 1.8, maxWidth: 900 },
+      // FOOTER
+      footer: { background: '#040b16', padding: '60px 40px 30px', borderTop: '1px solid #0d1f3c' },
+      footerGrid: { display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40, maxWidth: 1100, margin: '0 auto 40px' },
+      footerBrand: { color: GOLD, fontWeight: 700, fontSize: 18, marginBottom: 12 },
+      footerTagline: { color: GRAY, fontSize: 13, lineHeight: 1.7, marginBottom: 16 },
+      footerEmail: { color: GOLD, fontSize: 13, textDecoration: 'none' },
+      footerColTitle: { color: WHITE, fontWeight: 700, fontSize: 14, marginBottom: 16, letterSpacing: 1 },
+      footerLink: { color: GRAY, fontSize: 13, textDecoration: 'none', display: 'block', marginBottom: 8, lineHeight: 1.6 },
+      footerBottom: { borderTop: '1px solid #0d1f3c', paddingTop: 24, textAlign: 'center', color: '#475569', fontSize: 12, maxWidth: 1100, margin: '0 auto' },
+      // RESPONSIVE overrides handled via inline media approach
+    }
     
     const SERVICES = [
-      { title: 'AI Legal Assistant', badge: 'Subscribers', desc: 'Get instant guidance on UK family law, court procedures, and McKenzie Friend rights from our AI-powered chatbot.' },
-      { title: 'Court Report Generator', badge: 'Subscribers', desc: 'Generate professional, court-ready PDF reports with timelines, evidence appendices, and statements of truth.' },
-      { title: 'Child Contact Tracker', badge: 'Subscribers', desc: 'Log every pickup, dropoff, and interaction. Track custody schedules and document everything for court.' },
-      { title: 'Finance Tracker', badge: 'Subscribers', desc: 'Track child maintenance payments, additional expenses, and upload receipts. Generate financial summaries.' },
-      { title: 'Communication Logger', badge: 'Subscribers', desc: 'Record all communications with your ex-partner. Tag as positive, neutral, or concerning for court evidence.' },
-      { title: 'Custody Calendar', badge: 'Subscribers', desc: 'Visual calendar view of custody schedules, upcoming court dates, and important deadlines.' },
-      { title: 'Secure Document Storage', badge: 'Subscribers', desc: 'Upload and organise court orders, correspondence, evidence, and financial documents securely.' },
-      { title: 'McKenzie Friend Support', badge: 'Free', desc: 'Professional guidance on your rights as a litigant in person with McKenzie Friend assistance in court.' },
-      { title: 'Legal Resources Library', badge: 'Free', desc: 'Access articles, guides, FAQs, and video tutorials on UK family law and court procedures.' },
-      { title: 'Case Timeline Builder', badge: 'Subscribers', desc: 'Build a chronological timeline of events for your case with evidence linking and export capabilities.' },
-      { title: 'GDPR Compliant', badge: 'All Users', desc: 'Your data is encrypted at rest and in transit. Request deletion at any time. Full GDPR compliance.' },
-      { title: 'Analytics Dashboard', badge: 'Subscribers', desc: 'Visual summaries of contact patterns, financial tracking, and communication trends for your case.' },
+      { title: 'AI Legal Assistant', desc: 'Get instant guidance on UK family law, court procedures, and McKenzie Friend rights from our AI-powered chatbot.', badge: 'Subscribers', type: 'sub' },
+      { title: 'Court Report Generator', desc: 'Generate professional, court-ready PDF reports with timelines, evidence appendices, and statements of truth.', badge: 'Subscribers', type: 'sub' },
+      { title: 'Child Contact Tracker', desc: 'Log every pickup, dropoff, and interaction. Track custody schedules and document everything for court.', badge: 'Subscribers', type: 'sub' },
+      { title: 'Finance Tracker', desc: 'Track child maintenance payments, additional expenses, and upload receipts. Generate financial summaries.', badge: 'Subscribers', type: 'sub' },
+      { title: 'Communication Logger', desc: 'Record all communications with your ex-partner. Tag as positive, neutral, or concerning for court evidence.', badge: 'Subscribers', type: 'sub' },
+      { title: 'Custody Calendar', desc: 'Visual calendar view of custody schedules, upcoming court dates, and important deadlines.', badge: 'Subscribers', type: 'sub' },
+      { title: 'Secure Document Storage', desc: 'Upload and organise court orders, correspondence, evidence, and financial documents securely.', badge: 'Subscribers', type: 'sub' },
+      { title: 'McKenzie Friend Support', desc: 'Professional guidance on your rights as a litigant in person with McKenzie Friend assistance in court.', badge: 'Free', type: 'free' },
+      { title: 'Legal Resources Library', desc: 'Access articles, guides, FAQs, and video tutorials on UK family law and court procedures.', badge: 'Free', type: 'free' },
+      { title: 'Case Timeline Builder', desc: 'Build a chronological timeline of events for your case with evidence linking and export capabilities.', badge: 'Subscribers', type: 'sub' },
+      { title: 'GDPR Compliant', desc: 'Your data is encrypted at rest and in transit. Request deletion at any time. Full GDPR compliance.', badge: 'All Users', type: 'all' },
+      { title: 'Analytics Dashboard', desc: 'Visual summaries of contact patterns, financial tracking, and communication trends for your case.', badge: 'Subscribers', type: 'sub' },
     ]
     
     const STEPS = [
@@ -25,389 +144,318 @@ import { useState } from 'react'
     ]
     
     const FREE_FEATURES = [
-      { text: 'Legal resources library', included: true },
-      { text: 'Blog articles & guides', included: true },
-      { text: 'Legal glossary access', included: true },
-      { text: 'FAQ section', included: true },
-      { text: 'AI Legal Assistant', included: false },
-      { text: 'Court Report Generator', included: false },
-      { text: 'Child Contact Tracker', included: false },
-      { text: 'Finance Tracker', included: false },
-      { text: 'Document Storage', included: false },
-      { text: 'Communication Logger', included: false },
+      { label: 'Legal resources library', on: true },
+      { label: 'Blog articles & guides', on: true },
+      { label: 'Legal glossary access', on: true },
+      { label: 'FAQ section', on: true },
+      { label: 'AI Legal Assistant', on: false },
+      { label: 'Court Report Generator', on: false },
+      { label: 'Child Contact Tracker', on: false },
+      { label: 'Finance Tracker', on: false },
+      { label: 'Document Storage', on: false },
+      { label: 'Communication Logger', on: false },
     ]
     
     const PRO_FEATURES = [
-      'Everything in Free plan',
-      'AI Legal Assistant (unlimited)',
-      'Court Report Generator',
-      'Child Contact Tracker',
-      'Finance Tracker & Analytics',
-      'Secure Document Storage',
-      'Communication Logger',
-      'Case Timeline Builder',
-      'PDF Export for Court',
-      'Priority Email Support',
+      { label: 'Everything in Free plan', on: true },
+      { label: 'AI Legal Assistant (unlimited)', on: true },
+      { label: 'Court Report Generator', on: true },
+      { label: 'Child Contact Tracker', on: true },
+      { label: 'Finance Tracker & Analytics', on: true },
+      { label: 'Secure Document Storage', on: true },
+      { label: 'Communication Logger', on: true },
+      { label: 'Case Timeline Builder', on: true },
+      { label: 'PDF Export for Court', on: true },
+      { label: 'Priority Email Support', on: true },
     ]
     
-    const BADGE_COLORS = {
-      'Subscribers': { bg: '#1a3a5c', color: '#4a9eff' },
-      'Free': { bg: '#1a3a2c', color: '#4aff9e' },
-      'All Users': { bg: '#3a2a1a', color: '#ffaa4a' },
-    }
+    const PAYMENT_LINK = 'https://buy.stripe.com/test_courtcraft'
     
     export default function App() {
       const [menuOpen, setMenuOpen] = useState(false)
       const [bannerVisible, setBannerVisible] = useState(true)
     
+      const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+    
       return (
-        <div style={{ fontFamily: 'Georgia, serif', background: '#0a0f1a', color: '#e8e0d0', minHeight: '100vh' }}>
-    
-          <style>{`
-            * { box-sizing: border-box; margin: 0; padding: 0; }
-            a { text-decoration: none; color: inherit; }
-            .btn-gold {
-              background: linear-gradient(135deg, #b8960c, #d4af37);
-              color: #0a0f1a;
-              border: none;
-              padding: 14px 28px;
-              border-radius: 6px;
-              font-size: 15px;
-              font-weight: bold;
-              cursor: pointer;
-              display: inline-block;
-              transition: opacity 0.2s;
+        React.createElement('div', { style: styles.root },
+          React.createElement('style', null, `
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { background: ${NAVY}; }
+            @media (max-width: 900px) {
+              .grid3 { grid-template-columns: repeat(2, 1fr) !important; }
+              .footerGrid { grid-template-columns: repeat(2, 1fr) !important; }
+              .heroTitle { font-size: 38px !important; }
             }
-            .btn-gold:hover { opacity: 0.85; }
-            .btn-outline {
-              background: transparent;
-              color: #d4af37;
-              border: 2px solid #d4af37;
-              padding: 12px 26px;
-              border-radius: 6px;
-              font-size: 15px;
-              font-weight: bold;
-              cursor: pointer;
-              display: inline-block;
-              transition: all 0.2s;
-            }
-            .btn-outline:hover { background: #d4af37; color: #0a0f1a; }
-            @media (max-width: 768px) {
-              .nav-links { display: none !important; }
-              .nav-actions { display: none !important; }
+            @media (max-width: 600px) {
+              .grid3 { grid-template-columns: 1fr !important; }
+              .grid2 { grid-template-columns: 1fr !important; }
+              .grid2c { grid-template-columns: 1fr !important; }
+              .footerGrid { grid-template-columns: 1fr !important; }
+              .stats { gap: 30px !important; padding: 40px 20px !important; }
+              .heroTitle { font-size: 28px !important; }
+              .nav { padding: 0 16px !important; }
+              .navLinks { display: none !important; }
               .hamburger { display: flex !important; }
-              .hero-btns { flex-direction: column !important; align-items: stretch !important; }
-              .hero-btns a, .hero-btns button { width: 100% !important; text-align: center !important; }
-              .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-              .services-grid { grid-template-columns: 1fr !important; }
-              .steps-grid { grid-template-columns: 1fr !important; }
-              .pricing-grid { grid-template-columns: 1fr !important; }
-              .footer-grid { grid-template-columns: 1fr 1fr !important; }
-              .hero-title { font-size: clamp(28px, 8vw, 56px) !important; }
-              .section-title { font-size: clamp(24px, 6vw, 40px) !important; }
+              .hero { padding: 60px 20px 40px !important; }
+              .heroBtns { flex-direction: column !important; align-items: center !important; }
+              .sectionTitle { font-size: 26px !important; }
+              .services { padding: 50px 16px !important; }
+              .how { padding: 50px 16px !important; }
+              .pricing { padding: 50px 16px !important; }
+              .footer { padding: 40px 16px 20px !important; }
+              .trust { padding: 20px 16px !important; gap: 16px !important; }
             }
-            @media (max-width: 480px) {
-              .stats-grid { grid-template-columns: 1fr 1fr !important; }
-              .footer-grid { grid-template-columns: 1fr !important; }
-              .trust-badges { flex-wrap: wrap !important; gap: 8px !important; }
-            }
-          `}</style>
+            a:hover { opacity: 0.8; }
+            button:hover { opacity: 0.9; }
+          `),
     
-          {/* BANNER */}
-          {bannerVisible && (
-            <div style={{ background: 'linear-gradient(135deg, #b8960c, #8a6f09)', color: '#fff', textAlign: 'center', padding: '10px 40px', position: 'relative', fontSize: '14px' }}>
-              Professional McKenzie Friend Support — Start your 7-day free trial for just <strong>£20/month</strong>
-              <a href={PAYMENT_LINK} style={{ marginLeft: '16px', background: '#0a0f1a', color: '#d4af37', padding: '4px 14px', borderRadius: '4px', fontSize: '13px', fontWeight: 'bold' }}>Get Started</a>
-              <button onClick={() => setBannerVisible(false)} style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', lineHeight: 1 }}>x</button>
-            </div>
-          )}
+          bannerVisible && React.createElement('div', { style: styles.banner },
+            React.createElement('span', null, '7-Day Free Trial — Full access for just £20/month after. '),
+            React.createElement('a', { href: PAYMENT_LINK, style: { color: NAVY, fontWeight: 900, textDecoration: 'underline' } }, 'Start Free Trial'),
+            React.createElement('button', {
+              onClick: function() { setBannerVisible(false) },
+              style: { background: 'none', border: 'none', marginLeft: 16, cursor: 'pointer', color: NAVY, fontWeight: 700, fontSize: 16 }
+            }, 'x')
+          ),
     
-          {/* NAV */}
-          <nav style={{ background: '#0d1526', borderBottom: '1px solid #1e3a5c', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '70px', position: 'sticky', top: 0, zIndex: 1000 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '22px' }}>&#9878;</span>
-              <span style={{ color: '#d4af37', fontWeight: 'bold', fontSize: '18px' }}>CourtCraft Advocate</span>
-            </div>
-            <div className="nav-links" style={{ display: 'flex', gap: '32px', fontSize: '14px' }}>
-              {['Home','Services','Resources','Contact'].map(l => (
-                <a key={l} href="#" style={{ color: '#c8c0b0', transition: 'color 0.2s' }}
-                  onMouseEnter={e => e.target.style.color = '#d4af37'}
-                  onMouseLeave={e => e.target.style.color = '#c8c0b0'}>{l}</a>
-              ))}
-            </div>
-            <div className="nav-actions" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <a href="#" style={{ color: '#c8c0b0', fontSize: '14px' }}>Sign In</a>
-              <a href={PAYMENT_LINK} className="btn-gold" style={{ padding: '8px 20px', fontSize: '13px' }}>Start Free Trial</a>
-            </div>
-            <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}
-              style={{ display: 'none', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-              <span style={{ display: 'block', width: '24px', height: '2px', background: '#d4af37' }}></span>
-              <span style={{ display: 'block', width: '24px', height: '2px', background: '#d4af37' }}></span>
-              <span style={{ display: 'block', width: '24px', height: '2px', background: '#d4af37' }}></span>
-            </button>
-          </nav>
+          React.createElement('nav', { style: styles.nav, className: 'nav' },
+            React.createElement('a', { href: '#', style: styles.navLogo },
+              React.createElement('span', { style: { fontSize: 22 } }, '⚖️'),
+              React.createElement('span', { style: styles.navLogoText }, 'CourtCraft Advocate')
+            ),
+            React.createElement('div', { style: styles.navLinks, className: 'navLinks' },
+              React.createElement('a', { href: '#services', style: styles.navLink }, 'Services'),
+              React.createElement('a', { href: '#how', style: styles.navLink }, 'Resources'),
+              React.createElement('a', { href: '#contact', style: styles.navLink }, 'Contact'),
+              React.createElement('button', { style: styles.navBtnOutline }, 'Sign In'),
+              React.createElement('a', { href: PAYMENT_LINK, style: { textDecoration: 'none' } },
+                React.createElement('button', { style: styles.navBtn }, 'Start Free Trial')
+              )
+            ),
+            React.createElement('button', {
+              style: styles.hamburger,
+              className: 'hamburger',
+              onClick: function() { setMenuOpen(!menuOpen) }
+            },
+              React.createElement('span', { style: styles.hamburgerLine }),
+              React.createElement('span', { style: styles.hamburgerLine }),
+              React.createElement('span', { style: styles.hamburgerLine })
+            )
+          ),
     
-          {/* MOBILE MENU */}
-          {menuOpen && (
-            <div style={{ background: '#0d1526', borderBottom: '1px solid #1e3a5c', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {['Home','Services','Resources','Contact'].map(l => (
-                <a key={l} href="#" style={{ color: '#c8c0b0', fontSize: '16px' }} onClick={() => setMenuOpen(false)}>{l}</a>
-              ))}
-              <a href="#" style={{ color: '#c8c0b0', fontSize: '16px' }}>Sign In</a>
-              <a href={PAYMENT_LINK} className="btn-gold" style={{ textAlign: 'center' }}>Start Free Trial</a>
-            </div>
-          )}
+          menuOpen && React.createElement('div', { style: styles.mobileMenu },
+            React.createElement('a', { href: '#services', style: styles.mobileLink, onClick: function() { setMenuOpen(false) } }, 'Services'),
+            React.createElement('a', { href: '#how', style: styles.mobileLink, onClick: function() { setMenuOpen(false) } }, 'Resources'),
+            React.createElement('a', { href: '#contact', style: styles.mobileLink, onClick: function() { setMenuOpen(false) } }, 'Contact'),
+            React.createElement('a', { href: '#', style: styles.mobileLink }, 'Sign In'),
+            React.createElement('a', { href: PAYMENT_LINK, style: Object.assign({}, styles.mobileLink, { color: GOLD, fontWeight: 700 }) }, 'Start Free Trial')
+          ),
     
-          {/* HERO */}
-          <section style={{ background: 'linear-gradient(180deg, #0d1526 0%, #0a0f1a 100%)', padding: '80px 40px 60px', textAlign: 'center', borderBottom: '1px solid #1e3a5c' }}>
-            <div style={{ display: 'inline-block', background: 'rgba(184,150,12,0.15)', border: '1px solid #b8960c', color: '#d4af37', padding: '6px 18px', borderRadius: '20px', fontSize: '13px', marginBottom: '24px' }}>
-              Professional McKenzie Friend Services
-            </div>
-            <h1 className="hero-title" style={{ fontSize: 'clamp(32px, 6vw, 64px)', fontWeight: 'bold', color: '#ffffff', lineHeight: 1.1, marginBottom: '20px', letterSpacing: '-1px' }}>
-              YOUR CHILDREN<br />DESERVE YOUR BEST
-            </h1>
-            <p style={{ fontSize: 'clamp(15px, 2.5vw, 18px)', color: '#a89880', maxWidth: '600px', margin: '0 auto 32px', lineHeight: 1.7 }}>
-              Professional McKenzie Friend Support at All Stages of Divorce & Custody Proceedings
-            </p>
-            <div style={{ display: 'inline-block', background: 'rgba(184,150,12,0.1)', border: '1px solid #b8960c', borderRadius: '8px', padding: '12px 24px', marginBottom: '32px' }}>
-              <div style={{ color: '#d4af37', fontSize: '24px', fontWeight: 'bold' }}>£20/month</div>
-              <div style={{ color: '#888', fontSize: '13px' }}>7-Day Free Trial — Cancel anytime. No commitment.</div>
-            </div>
-            <div className="hero-btns" style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '48px', flexWrap: 'wrap' }}>
-              <a href="mailto:support@courtcraftadvocate.com" className="btn-outline">Contact Us</a>
-              <a href={PAYMENT_LINK} className="btn-gold">Start Free Trial</a>
-            </div>
-            <p style={{ color: '#888', fontSize: '13px', marginBottom: '40px' }}>Join 5,000+ Parents Fighting Smart</p>
+          React.createElement('div', { style: Object.assign({}, styles.hero, { marginTop: bannerVisible ? 40 : 0 }), className: 'hero' },
+            React.createElement('div', { style: styles.heroEyebrow }, 'Professional McKenzie Friend Services'),
+            React.createElement('h1', { style: styles.heroTitle, className: 'heroTitle' },
+              'YOUR CHILDREN ',
+              React.createElement('span', { style: styles.heroTitle2 }, 'DESERVE YOUR BEST')
+            ),
+            React.createElement('p', { style: styles.heroSub }, 'Professional McKenzie Friend Support at All Stages of Divorce & Custody Proceedings'),
+            React.createElement('div', { style: styles.heroBadge }, '£  20/month — 7-Day Free Trial — Cancel anytime. No commitment.'),
+            React.createElement('div', { style: styles.heroBtns, className: 'heroBtns' },
+              React.createElement('a', { href: '#contact', style: { textDecoration: 'none' } },
+                React.createElement('button', { style: styles.btnSecondary }, 'Contact Us')
+              ),
+              React.createElement('a', { href: PAYMENT_LINK, style: { textDecoration: 'none' } },
+                React.createElement('button', { style: styles.btnPrimary }, 'Start Free Trial')
+              )
+            ),
+            React.createElement('p', { style: styles.heroNote }, 'Join 5,000+ Parents Fighting Smart')
+          ),
     
-            {/* VIDEO */}
-            <div style={{ maxWidth: '700px', margin: '0 auto 40px', borderRadius: '12px', overflow: 'hidden', border: '2px solid #1e3a5c', position: 'relative', background: '#050a12' }}>
-              <div style={{ position: 'absolute', top: '12px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(0,0,0,0.7)', color: '#d4af37', padding: '4px 16px', borderRadius: '12px', fontSize: '12px', zIndex: 2, whiteSpace: 'nowrap' }}>
-                WATCH OUR STORY
-              </div>
-              <video
-                controls
-                poster="/assets/endcard.jpeg"
-                style={{ width: '100%', display: 'block' }}
-              >
-                <source src="/assets/CourtCraft_Advocate_FINAL.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
+          React.createElement('div', { style: styles.stats, className: 'stats' },
+            React.createElement('div', { style: styles.statItem }, React.createElement('div', { style: styles.statNum }, '5,000+'), React.createElement('div', { style: styles.statLabel }, 'Parents Helped')),
+            React.createElement('div', { style: styles.statItem }, React.createElement('div', { style: styles.statNum }, '12,000+'), React.createElement('div', { style: styles.statLabel }, 'Court Reports')),
+            React.createElement('div', { style: styles.statItem }, React.createElement('div', { style: styles.statNum }, '94%'), React.createElement('div', { style: styles.statLabel }, 'Success Rate'))
+          ),
     
-            {/* STATS */}
-            <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '600px', margin: '0 auto 40px' }}>
-              {[['5,000+','Parents Helped'],['12,000+','Court Reports'],['94%','Success Rate']].map(([n,l]) => (
-                <div key={l} style={{ background: '#0d1526', border: '1px solid #1e3a5c', borderRadius: '10px', padding: '20px 12px', textAlign: 'center' }}>
-                  <div style={{ color: '#d4af37', fontSize: '28px', fontWeight: 'bold' }}>{n}</div>
-                  <div style={{ color: '#888', fontSize: '12px', marginTop: '4px' }}>{l}</div>
-                </div>
-              ))}
-            </div>
+          React.createElement('div', { style: styles.videoSection },
+            React.createElement('div', { style: styles.videoLabel }, 'WATCH OUR STORY'),
+            React.createElement('div', { style: styles.videoBox },
+              React.createElement('video', {
+                style: styles.video,
+                controls: true,
+                poster: '/assets/endcard.jpeg',
+                preload: 'metadata'
+              },
+                React.createElement('source', { src: '/assets/CourtCraft_Advocate_FINAL.mp4', type: 'video/mp4' }),
+                'Your browser does not support the video tag.'
+              )
+            )
+          ),
     
-            {/* TRUST BADGES */}
-            <div className="trust-badges" style={{ display: 'flex', justifyContent: 'center', gap: '24px', flexWrap: 'wrap' }}>
-              {['GDPR Compliant','McKenzie Friend Certified','24hr Response Time','5,000+ Parents Helped'].map(b => (
-                <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#888', fontSize: '13px' }}>
-                  <span style={{ color: '#d4af37', fontSize: '16px' }}>&#10003;</span> {b}
-                </div>
-              ))}
-            </div>
-          </section>
+          React.createElement('div', { style: styles.trust, className: 'trust' },
+            React.createElement('span', { style: styles.trustItem }, React.createElement('span', { style: styles.trustDot }), 'GDPR Compliant'),
+            React.createElement('span', { style: styles.trustItem }, React.createElement('span', { style: styles.trustDot }), 'McKenzie Friend Certified'),
+            React.createElement('span', { style: styles.trustItem }, React.createElement('span', { style: styles.trustDot }), '24hr Response Time'),
+            React.createElement('span', { style: styles.trustItem }, React.createElement('span', { style: styles.trustDot }), '5,000+ Parents Helped')
+          ),
     
-          {/* SERVICES */}
-          <section style={{ padding: '80px 40px', background: '#0a0f1a' }}>
-            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-              <h2 className="section-title" style={{ fontSize: 'clamp(26px, 5vw, 42px)', color: '#ffffff', marginBottom: '16px' }}>Our Services</h2>
-              <p style={{ color: '#d4af37', fontSize: '18px', marginBottom: '12px' }}>Everything You Need to Fight Smart</p>
-              <p style={{ color: '#888', maxWidth: '600px', margin: '0 auto', lineHeight: 1.7 }}>
-                Comprehensive tools and support designed specifically for parents navigating family court proceedings.
-              </p>
-            </div>
-            <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1100px', margin: '0 auto' }}>
-              {SERVICES.map(s => (
-                <div key={s.title} style={{ background: '#0d1526', border: '1px solid #1e3a5c', borderRadius: '12px', padding: '28px 24px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                    <h3 style={{ color: '#ffffff', fontSize: '16px', fontWeight: 'bold', flex: 1, marginRight: '10px' }}>{s.title}</h3>
-                    <span style={{ background: BADGE_COLORS[s.badge].bg, color: BADGE_COLORS[s.badge].color, padding: '3px 10px', borderRadius: '12px', fontSize: '11px', whiteSpace: 'nowrap' }}>{s.badge}</span>
-                  </div>
-                  <p style={{ color: '#8899aa', fontSize: '14px', lineHeight: 1.6, marginBottom: '16px' }}>{s.desc}</p>
-                  <a href={PAYMENT_LINK} style={{ color: '#d4af37', fontSize: '13px', fontWeight: 'bold' }}>Learn more &rarr;</a>
-                </div>
-              ))}
-            </div>
-          </section>
+          React.createElement('div', { id: 'services', style: styles.services },
+            React.createElement('div', { style: styles.sectionEyebrow }, 'Our Services'),
+            React.createElement('h2', { style: styles.sectionTitle }, 'Everything You Need to Fight Smart'),
+            React.createElement('p', { style: styles.sectionSub }, 'Comprehensive tools and support designed specifically for parents navigating family court proceedings.'),
+            React.createElement('div', { style: styles.grid3, className: 'grid3' },
+              SERVICES.map(function(s, i) {
+                var badgeStyle = s.type === 'sub' ? Object.assign({}, styles.badge, styles.badgeSub) : s.type === 'free' ? Object.assign({}, styles.badge, styles.badgeFree) : Object.assign({}, styles.badge, styles.badgeAll)
+                return React.createElement('div', { key: i, style: styles.card },
+                  React.createElement('div', { style: badgeStyle }, s.badge),
+                  React.createElement('h3', { style: Object.assign({}, styles.cardTitle, { marginTop: 12 }) }, s.title),
+                  React.createElement('p', { style: styles.cardDesc }, s.desc),
+                  React.createElement('a', { href: '#', style: styles.cardLink }, 'Learn more →')
+                )
+              })
+            )
+          ),
     
-          {/* HOW IT WORKS */}
-          <section style={{ padding: '80px 40px', background: '#0d1526', borderTop: '1px solid #1e3a5c', borderBottom: '1px solid #1e3a5c' }}>
-            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-              <h2 className="section-title" style={{ fontSize: 'clamp(26px, 5vw, 42px)', color: '#ffffff', marginBottom: '12px' }}>How It Works</h2>
-              <p style={{ color: '#888', maxWidth: '500px', margin: '0 auto', lineHeight: 1.7 }}>
-                Get started in minutes. Our platform guides you through every step of your family court journey.
-              </p>
-            </div>
-            <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', maxWidth: '800px', margin: '0 auto 48px' }}>
-              {STEPS.map(s => (
-                <div key={s.num} style={{ background: '#0a0f1a', border: '1px solid #1e3a5c', borderRadius: '12px', padding: '32px 28px' }}>
-                  <div style={{ color: '#d4af37', fontSize: '36px', fontWeight: 'bold', marginBottom: '12px', opacity: 0.8 }}>{s.num}</div>
-                  <h3 style={{ color: '#ffffff', fontSize: '18px', marginBottom: '10px' }}>{s.title}</h3>
-                  <p style={{ color: '#8899aa', fontSize: '14px', lineHeight: 1.6 }}>{s.desc}</p>
-                </div>
-              ))}
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <a href={PAYMENT_LINK} className="btn-gold">Get Started Today</a>
-            </div>
-          </section>
+          React.createElement('div', { id: 'how', style: styles.how },
+            React.createElement('div', { style: styles.sectionEyebrow }, 'How It Works'),
+            React.createElement('h2', { style: styles.sectionTitle }, 'Get started in minutes'),
+            React.createElement('p', { style: styles.sectionSub }, 'Our platform guides you through every step of your family court journey.'),
+            React.createElement('div', { style: styles.grid2, className: 'grid2' },
+              STEPS.map(function(s, i) {
+                return React.createElement('div', { key: i, style: styles.stepCard },
+                  React.createElement('div', { style: styles.stepNum }, s.num),
+                  React.createElement('h3', { style: styles.stepTitle }, s.title),
+                  React.createElement('p', { style: styles.stepDesc }, s.desc)
+                )
+              })
+            ),
+            React.createElement('div', { style: styles.centerBtn },
+              React.createElement('a', { href: PAYMENT_LINK, style: { textDecoration: 'none' } },
+                React.createElement('button', { style: styles.btnPrimary }, 'Get Started Today')
+              )
+            )
+          ),
     
-          {/* CTA BAND */}
-          <section style={{ padding: '70px 40px', background: 'linear-gradient(135deg, #0d1a2e, #0a0f1a)', textAlign: 'center', borderBottom: '1px solid #1e3a5c' }}>
-            <h2 style={{ fontSize: 'clamp(24px, 5vw, 38px)', color: '#ffffff', marginBottom: '16px' }}>Your Children Are Counting On You</h2>
-            <p style={{ color: '#8899aa', maxWidth: '520px', margin: '0 auto 32px', lineHeight: 1.7 }}>
-              Don't navigate family court alone. Get the professional tools and AI-powered guidance you need to present your case with confidence.
-            </p>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="mailto:support@courtcraftadvocate.com" className="btn-outline">Contact Us Today</a>
-              <a href={PAYMENT_LINK} className="btn-gold">Start Free Trial</a>
-            </div>
-            <p style={{ color: '#666', fontSize: '13px', marginTop: '16px' }}>7-day free trial. £20/month. Cancel anytime.</p>
-          </section>
+          React.createElement('div', { style: styles.ctaBand },
+            React.createElement('h2', { style: styles.ctaTitle }, 'Your Children Are Counting On You'),
+            React.createElement('p', { style: styles.ctaSub }, "Don't navigate family court alone. Get the professional tools and AI-powered guidance you need to present your case with confidence."),
+            React.createElement('div', { style: styles.ctaBtns },
+              React.createElement('a', { href: '#contact', style: { textDecoration: 'none' } },
+                React.createElement('button', { style: styles.btnSecondary }, 'Contact Us Today')
+              ),
+              React.createElement('a', { href: PAYMENT_LINK, style: { textDecoration: 'none' } },
+                React.createElement('button', { style: styles.btnPrimary }, 'Start Free Trial')
+              )
+            ),
+            React.createElement('p', { style: Object.assign({}, styles.heroNote, { marginTop: 16 }) }, '7-day free trial. £20/month. Cancel anytime.')
+          ),
     
-          {/* TESTIMONIAL */}
-          <section style={{ padding: '80px 40px', background: '#0a0f1a', textAlign: 'center' }}>
-            <h2 className="section-title" style={{ fontSize: 'clamp(24px, 5vw, 38px)', color: '#ffffff', marginBottom: '8px' }}>Trusted by 5,000+ Parents</h2>
-            <p style={{ color: '#888', marginBottom: '48px' }}>Real stories from parents who used CourtCraft Advocate to navigate family court successfully.</p>
-            <div style={{ maxWidth: '680px', margin: '0 auto', background: '#0d1526', border: '1px solid #1e3a5c', borderRadius: '16px', padding: '40px 36px' }}>
-              <div style={{ color: '#d4af37', fontSize: '28px', marginBottom: '20px' }}>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p style={{ color: '#c8c0b0', fontSize: '18px', lineHeight: 1.8, fontStyle: 'italic', marginBottom: '28px' }}>
-                "CourtCraft Advocate was a lifeline during my custody battle. The court report generator saved me thousands in solicitor fees, and the AI assistant helped me understand every step of the process."
-              </p>
-              <div style={{ color: '#d4af37', fontWeight: 'bold', fontSize: '16px' }}>Sarah M.</div>
-              <div style={{ color: '#666', fontSize: '13px', marginTop: '4px' }}>London · Custody Case</div>
-            </div>
-          </section>
+          React.createElement('div', { style: styles.testimonial },
+            React.createElement('div', { style: styles.sectionEyebrow }, 'Trusted by 5,000+ Parents'),
+            React.createElement('h2', { style: styles.sectionTitle }, 'Real stories from real parents'),
+            React.createElement('div', { style: styles.testimonialBox },
+              React.createElement('div', { style: styles.stars }, '★★★★★'),
+              React.createElement('p', { style: styles.quote }, '"CourtCraft Advocate was a lifeline during my custody battle. The court report generator saved me thousands in solicitor fees, and the AI assistant helped me understand every step of the process."'),
+              React.createElement('div', { style: styles.author }, 'Sarah M.'),
+              React.createElement('div', { style: styles.authorSub }, 'London - Custody Case')
+            )
+          ),
     
-          {/* PRICING */}
-          <section style={{ padding: '80px 40px', background: '#0d1526', borderTop: '1px solid #1e3a5c' }}>
-            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-              <h2 className="section-title" style={{ fontSize: 'clamp(26px, 5vw, 42px)', color: '#ffffff', marginBottom: '8px' }}>Simple Pricing</h2>
-              <p style={{ color: '#d4af37', fontSize: '18px', marginBottom: '12px' }}>Invest in Your Children's Future</p>
-              <p style={{ color: '#888' }}>One simple plan with everything you need. Start with a 7-day free trial.</p>
-            </div>
-            <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '28px', maxWidth: '800px', margin: '0 auto 28px' }}>
-              {/* FREE */}
-              <div style={{ background: '#0a0f1a', border: '1px solid #1e3a5c', borderRadius: '16px', padding: '36px 28px' }}>
-                <h3 style={{ color: '#ffffff', fontSize: '20px', marginBottom: '4px' }}>Free Access</h3>
-                <p style={{ color: '#666', fontSize: '13px', marginBottom: '20px' }}>Educational resources only</p>
-                <div style={{ color: '#ffffff', fontSize: '36px', fontWeight: 'bold', marginBottom: '28px' }}>£0<span style={{ fontSize: '16px', color: '#666', fontWeight: 'normal' }}>/month</span></div>
-                {FREE_FEATURES.map(f => (
-                  <div key={f.text} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', color: f.included ? '#c8c0b0' : '#445', fontSize: '14px' }}>
-                    <span style={{ color: f.included ? '#d4af37' : '#334', fontSize: '16px' }}>{f.included ? '✓' : '✗'}</span>
-                    {f.text}
-                  </div>
-                ))}
-                <a href="#" className="btn-outline" style={{ display: 'block', textAlign: 'center', marginTop: '24px' }}>Browse Resources</a>
-              </div>
-              {/* PRO */}
-              <div style={{ background: 'linear-gradient(180deg, #0d1e38 0%, #0a1628 100%)', border: '2px solid #b8960c', borderRadius: '16px', padding: '36px 28px', position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: '#b8960c', color: '#0a0f1a', padding: '4px 20px', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold', whiteSpace: 'nowrap' }}>MOST POPULAR</div>
-                <h3 style={{ color: '#ffffff', fontSize: '20px', marginBottom: '4px' }}>Pro Subscriber</h3>
-                <p style={{ color: '#888', fontSize: '13px', marginBottom: '20px' }}>Full access to all tools</p>
-                <div style={{ color: '#d4af37', fontSize: '36px', fontWeight: 'bold', marginBottom: '4px' }}>£20<span style={{ fontSize: '16px', color: '#888', fontWeight: 'normal' }}>/month</span></div>
-                <div style={{ color: '#888', fontSize: '13px', marginBottom: '28px' }}>7-day free trial included</div>
-                {PRO_FEATURES.map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', color: '#c8c0b0', fontSize: '14px' }}>
-                    <span style={{ color: '#d4af37', fontSize: '16px' }}>&#10003;</span> {f}
-                  </div>
-                ))}
-                <a href={PAYMENT_LINK} className="btn-gold" style={{ display: 'block', textAlign: 'center', marginTop: '24px' }}>Start 7-Day Free Trial</a>
-                <p style={{ color: '#555', fontSize: '12px', textAlign: 'center', marginTop: '12px' }}>Cancel anytime. No hidden fees.</p>
-              </div>
-            </div>
-            <p style={{ textAlign: 'center', color: '#555', fontSize: '13px' }}>Prices shown in GBP. Also available in USD ($25/mo) and EUR (23/mo).</p>
-          </section>
+          React.createElement('div', { id: 'pricing', style: styles.pricing },
+            React.createElement('div', { style: styles.sectionEyebrow }, 'Simple Pricing'),
+            React.createElement('h2', { style: styles.sectionTitle }, 'Invest in Your Children's Future'),
+            React.createElement('p', { style: styles.sectionSub }, 'One simple plan with everything you need. Start with a 7-day free trial.'),
+            React.createElement('div', { style: styles.grid2c, className: 'grid2c' },
+              React.createElement('div', { style: styles.priceFree },
+                React.createElement('div', { style: styles.planName }, 'Free Access'),
+                React.createElement('div', { style: styles.planDesc }, 'Educational resources only'),
+                React.createElement('div', { style: styles.planPrice }, '£0'),
+                React.createElement('div', { style: styles.planPer }, '/month'),
+                React.createElement('ul', { style: styles.planFeatures },
+                  FREE_FEATURES.map(function(f, i) {
+                    return React.createElement('li', { key: i, style: f.on ? styles.featureOn : styles.featureOff },
+                      React.createElement('span', { style: f.on ? styles.checkOn : styles.checkOff }, f.on ? '✓' : '✕'),
+                      f.label
+                    )
+                  })
+                ),
+                React.createElement('button', { style: Object.assign({}, styles.btnSecondary, { width: '100%', padding: '12px' }) }, 'Browse Resources')
+              ),
+              React.createElement('div', { style: styles.pricePro },
+                React.createElement('div', { style: styles.popularBadge }, 'MOST POPULAR'),
+                React.createElement('div', { style: styles.planName }, 'Pro Subscriber'),
+                React.createElement('div', { style: styles.planDesc }, 'Full access to all tools'),
+                React.createElement('div', { style: styles.planPrice }, '£20'),
+                React.createElement('div', { style: styles.planPer }, '/month — 7-day free trial included'),
+                React.createElement('ul', { style: styles.planFeatures },
+                  PRO_FEATURES.map(function(f, i) {
+                    return React.createElement('li', { key: i, style: styles.featureOn },
+                      React.createElement('span', { style: styles.checkOn }, '✓'),
+                      f.label
+                    )
+                  })
+                ),
+                React.createElement('a', { href: PAYMENT_LINK, style: { textDecoration: 'none', display: 'block' } },
+                  React.createElement('button', { style: Object.assign({}, styles.btnPrimary, { width: '100%', padding: '14px' }) }, 'Start 7-Day Free Trial')
+                ),
+                React.createElement('p', { style: styles.planNote }, 'Cancel anytime. No hidden fees.')
+              )
+            ),
+            React.createElement('p', { style: styles.priceNote }, 'Prices shown in GBP. Also available in USD ($25/mo) and EUR (€23/mo).')
+          ),
     
-          {/* FINAL CTA */}
-          <section style={{ padding: '80px 40px', background: 'linear-gradient(180deg, #0d1a2e, #060b14)', textAlign: 'center', borderTop: '1px solid #1e3a5c' }}>
-            <h2 style={{ fontSize: 'clamp(24px, 5vw, 40px)', color: '#ffffff', marginBottom: '16px' }}>Ready to Fight Smart?</h2>
-            <p style={{ color: '#8899aa', maxWidth: '560px', margin: '0 auto 36px', lineHeight: 1.7 }}>
-              Join thousands of parents who have used CourtCraft Advocate to navigate family court with confidence and achieve the best outcomes for their children.
-            </p>
-            <a href={PAYMENT_LINK} className="btn-gold" style={{ fontSize: '17px', padding: '16px 40px' }}>Start Your 7-Day Free Trial</a>
-            <p style={{ color: '#555', fontSize: '13px', marginTop: '14px' }}>No credit card required. Full access to all features.</p>
-          </section>
+          React.createElement('div', { style: styles.footerCta },
+            React.createElement('h2', { style: styles.footerCtaTitle }, 'Ready to Fight Smart?'),
+            React.createElement('p', { style: styles.footerCtaSub }, 'Join thousands of parents who have used CourtCraft Advocate to navigate family court with confidence and achieve the best outcomes for their children.'),
+            React.createElement('a', { href: PAYMENT_LINK, style: { textDecoration: 'none' } },
+              React.createElement('button', { style: styles.btnPrimary }, 'Start Your 7-Day Free Trial')
+            ),
+            React.createElement('p', { style: styles.footerCtaNote }, 'No credit card required. Full access to all features.')
+          ),
     
-          {/* LEGAL DISCLAIMER */}
-          <section style={{ padding: '40px', background: '#060b14', borderTop: '1px solid #1e3a5c' }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto', background: '#0d1526', border: '1px solid #1e3a5c', borderRadius: '10px', padding: '28px 32px' }}>
-              <h4 style={{ color: '#d4af37', marginBottom: '14px', fontSize: '14px', letterSpacing: '1px', textTransform: 'uppercase' }}>Important Legal Disclaimers</h4>
-              <p style={{ color: '#7788aa', fontSize: '13px', lineHeight: 1.8, marginBottom: '10px' }}>
-                CourtCraft Advocate provides McKenzie Friend services only. We are NOT solicitors or barristers.
-              </p>
-              <p style={{ color: '#7788aa', fontSize: '13px', lineHeight: 1.8, marginBottom: '10px' }}>
-                All advice and guidance should be verified with a legally qualified legal professional.
-              </p>
-              <p style={{ color: '#7788aa', fontSize: '13px', lineHeight: 1.8, marginBottom: '10px' }}>
-                McKenzie Friends have rights of audience in family courts but cannot conduct litigation or provide legal advice in the traditional sense.
-              </p>
-              <p style={{ color: '#7788aa', fontSize: '13px', lineHeight: 1.8 }}>
-                <strong style={{ color: '#8899bb' }}>GDPR Compliance:</strong> We process personal data in accordance with GDPR. Your information is encrypted and stored securely. You have the right to access, rectify, or request deletion of your personal data at any time.
-              </p>
-            </div>
-          </section>
+          React.createElement('div', { style: styles.legal },
+            React.createElement('div', { style: styles.legalTitle }, 'IMPORTANT LEGAL DISCLAIMERS'),
+            React.createElement('p', { style: styles.legalText },
+              'CourtCraft Advocate provides McKenzie Friend services only. We are NOT solicitors or barristers. ',
+              'All advice and guidance should be verified with a legally qualified legal professional. ',
+              'McKenzie Friends have rights of audience in family courts but cannot conduct litigation or provide legal advice in the traditional sense. ',
+              'GDPR Compliance: We process personal data in accordance with GDPR. Your information is encrypted and stored securely. ',
+              'You have the right to access, rectify, or request deletion of your personal data at any time.'
+            )
+          ),
     
-          {/* FOOTER */}
-          <footer style={{ background: '#060b14', borderTop: '1px solid #1e3a5c', padding: '60px 40px 30px' }}>
-            <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px', maxWidth: '1100px', margin: '0 auto 40px' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                  <span style={{ color: '#d4af37', fontSize: '20px' }}>&#9878;</span>
-                  <span style={{ color: '#d4af37', fontWeight: 'bold', fontSize: '16px' }}>CourtCraft Advocate</span>
-                </div>
-                <p style={{ color: '#667788', fontSize: '13px', lineHeight: 1.7, marginBottom: '12px' }}>
-                  Professional McKenzie Friend support empowering parents through divorce and custody proceedings with confidence.
-                </p>
-                <a href="mailto:support@courtcraftadvocate.com" style={{ color: '#d4af37', fontSize: '13px' }}>support@courtcraftadvocate.com</a>
-              </div>
-              <div>
-                <h4 style={{ color: '#ffffff', fontSize: '13px', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '16px' }}>Quick Links</h4>
-                {['Home','Services','Pricing','Resources','Contact Us','FAQs'].map(l => (
-                  <a key={l} href="#" style={{ display: 'block', color: '#667788', fontSize: '13px', marginBottom: '10px', transition: 'color 0.2s' }}
-                    onMouseEnter={e => e.target.style.color = '#d4af37'}
-                    onMouseLeave={e => e.target.style.color = '#667788'}>{l}</a>
-                ))}
-              </div>
-              <div>
-                <h4 style={{ color: '#ffffff', fontSize: '13px', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '16px' }}>Legal & Policies</h4>
-                {['Terms of Service','Privacy Policy','GDPR Policy','Cookie Policy','Copyright & Legal','Complaints Procedure','Data Deletion Request'].map(l => (
-                  <a key={l} href="#" style={{ display: 'block', color: '#667788', fontSize: '13px', marginBottom: '10px', transition: 'color 0.2s' }}
-                    onMouseEnter={e => e.target.style.color = '#d4af37'}
-                    onMouseLeave={e => e.target.style.color = '#667788'}>{l}</a>
-                ))}
-              </div>
-              <div>
-                <h4 style={{ color: '#ffffff', fontSize: '13px', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '16px' }}>Subscriber Tools</h4>
-                {['Dashboard','AI Legal Assistant','Court Report Generator','Child Contact Tracker','Document Manager','Billing & Subscription'].map(l => (
-                  <a key={l} href="#" style={{ display: 'block', color: '#667788', fontSize: '13px', marginBottom: '10px', transition: 'color 0.2s' }}
-                    onMouseEnter={e => e.target.style.color = '#d4af37'}
-                    onMouseLeave={e => e.target.style.color = '#667788'}>{l}</a>
-                ))}
-              </div>
-            </div>
-            <div style={{ borderTop: '1px solid #1e3a5c', paddingTop: '24px', textAlign: 'center' }}>
-              <p style={{ color: '#445566', fontSize: '12px', marginBottom: '8px' }}>
-                © 2026 CourtCraft Advocate™. All Rights Reserved. Registered in England & Wales.
-              </p>
-              <p style={{ color: '#445566', fontSize: '12px' }}>
-                CourtCraft Advocate is a registered trademark. Protected by UK and International Copyright Law.
-              </p>
-              <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '16px' }}>
-                <span style={{ color: '#445566', fontSize: '12px' }}>&#128274; SSL Encrypted</span>
-                <span style={{ color: '#445566', fontSize: '12px' }}>&#10003; GDPR Compliant</span>
-              </div>
-            </div>
-          </footer>
-    
-        </div>
+          React.createElement('footer', { id: 'contact', style: styles.footer },
+            React.createElement('div', { style: styles.footerGrid, className: 'footerGrid' },
+              React.createElement('div', null,
+                React.createElement('div', { style: styles.footerBrand }, '⚖️ CourtCraft Advocate'),
+                React.createElement('p', { style: styles.footerTagline }, 'Professional McKenzie Friend support empowering parents through divorce and custody proceedings with confidence.'),
+                React.createElement('a', { href: 'mailto:support@courtcraftadvocate.com', style: styles.footerEmail }, 'support@courtcraftadvocate.com')
+              ),
+              React.createElement('div', null,
+                React.createElement('div', { style: styles.footerColTitle }, 'QUICK LINKS'),
+                ['Home', 'Services', 'Pricing', 'Resources', 'Contact Us', 'FAQs'].map(function(l) {
+                  return React.createElement('a', { key: l, href: '#', style: styles.footerLink }, l)
+                })
+              ),
+              React.createElement('div', null,
+                React.createElement('div', { style: styles.footerColTitle }, 'LEGAL & POLICIES'),
+                ['Terms of Service', 'Privacy Policy', 'GDPR Policy', 'Cookie Policy', 'Copyright & Legal', 'Complaints Procedure', 'Data Deletion Request'].map(function(l) {
+                  return React.createElement('a', { key: l, href: '#', style: styles.footerLink }, l)
+                })
+              ),
+              React.createElement('div', null,
+                React.createElement('div', { style: styles.footerColTitle }, 'SUBSCRIBER TOOLS'),
+                ['Dashboard', 'AI Legal Assistant', 'Court Report Generator', 'Child Contact Tracker', 'Document Manager', 'Billing & Subscription'].map(function(l) {
+                  return React.createElement('a', { key: l, href: '#', style: styles.footerLink }, l)
+                })
+              )
+            ),
+            React.createElement('div', { style: styles.footerBottom },
+              React.createElement('p', null, '© 2026 CourtCraft Advocate™. All Rights Reserved. CourtCraft Advocate is a registered trademark. Protected by UK and International Copyright Law.'),
+              React.createElement('p', { style: { marginTop: 8 } }, 'SSL Encrypted | GDPR Compliant | Registered in England & Wales')
+            )
+          )
+        )
       )
     }
     
