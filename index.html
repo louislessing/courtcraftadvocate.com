@@ -1,12 +1,807 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CourtCraft Advocate</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/app/main.jsx"></script>
-  </body>
-</html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="description" content="CourtCraft Advocate – Professional McKenzie Friend services for parents navigating divorce and custody proceedings in UK family courts." />
+      <title>CourtCraft Advocate – Professional McKenzie Friend Services</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+      <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+          font-family: 'Inter', sans-serif;
+          background: #0a0f1a;
+          color: #e2e8f0;
+          line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
+    
+        /* ===== VARIABLES ===== */
+        :root {
+          --gold: #c9a84c;
+          --gold-light: #f0c96a;
+          --navy: #0a0f1a;
+          --navy-mid: #111827;
+          --navy-card: #1a2235;
+          --navy-border: #243050;
+          --text-primary: #e2e8f0;
+          --text-muted: #94a3b8;
+          --text-dim: #64748b;
+          --green: #22c55e;
+          --red: #ef4444;
+        }
+    
+        /* ===== NAV ===== */
+        nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          background: rgba(10, 15, 26, 0.95);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--navy-border);
+          padding: 0 2rem;
+          display: flex; align-items: center; justify-content: space-between;
+          height: 70px;
+        }
+        .nav-logo {
+          font-size: 1.2rem; font-weight: 800;
+          color: var(--gold);
+          letter-spacing: -0.5px;
+        }
+        .nav-links {
+          display: flex; gap: 2rem; list-style: none;
+        }
+        .nav-links a {
+          color: var(--text-muted); font-size: 0.9rem; font-weight: 500;
+          transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-cta {
+          display: flex; gap: 1rem; align-items: center;
+        }
+        .btn-ghost {
+          padding: 0.5rem 1.2rem; border-radius: 8px;
+          border: 1px solid var(--navy-border);
+          color: var(--text-muted); font-size: 0.9rem;
+          background: transparent; cursor: pointer;
+          transition: all 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-primary {
+          padding: 0.55rem 1.3rem; border-radius: 8px;
+          background: var(--gold); color: #0a0f1a;
+          font-size: 0.9rem; font-weight: 700;
+          border: none; cursor: pointer;
+          transition: background 0.2s;
+        }
+        .btn-primary:hover { background: var(--gold-light); }
+    
+        /* ===== HERO ===== */
+        .hero {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #0a0f1a 0%, #0f172a 40%, #1a1035 100%);
+          display: flex; align-items: center; justify-content: center;
+          text-align: center;
+          padding: 120px 2rem 80px;
+          position: relative; overflow: hidden;
+        }
+        .hero::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(201,168,76,0.08) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .hero-badge {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          background: rgba(201,168,76,0.1);
+          border: 1px solid rgba(201,168,76,0.3);
+          border-radius: 100px;
+          padding: 0.4rem 1rem;
+          font-size: 0.8rem; font-weight: 600; color: var(--gold);
+          text-transform: uppercase; letter-spacing: 1px;
+          margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+          font-size: clamp(2.5rem, 6vw, 5rem);
+          font-weight: 900; line-height: 1.05;
+          color: #fff;
+          margin-bottom: 0.5rem;
+          text-transform: uppercase; letter-spacing: -1px;
+        }
+        .hero h1 span { color: var(--gold); }
+        .hero-sub {
+          font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+          color: var(--text-muted); margin-bottom: 1rem;
+          max-width: 640px; margin-left: auto; margin-right: auto;
+        }
+        .hero-price {
+          font-size: 1.1rem; color: var(--gold); font-weight: 700;
+          margin-bottom: 0.4rem;
+        }
+        .hero-trial {
+          font-size: 0.9rem; color: var(--text-dim);
+          margin-bottom: 2.5rem;
+        }
+        .hero-buttons {
+          display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+          margin-bottom: 3rem;
+        }
+        .btn-lg {
+          padding: 0.85rem 2rem; border-radius: 10px;
+          font-size: 1rem; font-weight: 700; cursor: pointer;
+          transition: all 0.2s;
+        }
+        .btn-lg.primary {
+          background: var(--gold); color: #0a0f1a; border: none;
+        }
+        .btn-lg.primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+        .btn-lg.secondary {
+          background: transparent; color: var(--text-primary);
+          border: 1px solid var(--navy-border);
+        }
+        .btn-lg.secondary:hover { border-color: var(--gold); color: var(--gold); }
+        .hero-stats {
+          display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-number {
+          font-size: 2.2rem; font-weight: 900; color: var(--gold);
+        }
+        .stat-label {
+          font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+    
+        /* ===== TRUST BAR ===== */
+        .trust-bar {
+          background: var(--navy-mid);
+          border-top: 1px solid var(--navy-border);
+          border-bottom: 1px solid var(--navy-border);
+          padding: 1rem 2rem;
+          display: flex; justify-content: center; align-items: center;
+          gap: 2.5rem; flex-wrap: wrap;
+        }
+        .trust-item {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.85rem; color: var(--text-muted); font-weight: 500;
+        }
+        .trust-dot {
+          width: 8px; height: 8px; border-radius: 50%;
+          background: var(--green); flex-shrink: 0;
+        }
+    
+        /* ===== SECTION WRAPPER ===== */
+        section { padding: 80px 2rem; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .section-tag {
+          font-size: 0.8rem; font-weight: 700; color: var(--gold);
+          text-transform: uppercase; letter-spacing: 2px;
+          margin-bottom: 0.75rem;
+        }
+        .section-title {
+          font-size: clamp(1.8rem, 4vw, 2.8rem);
+          font-weight: 800; color: #fff; margin-bottom: 1rem;
+        }
+        .section-sub {
+          font-size: 1.05rem; color: var(--text-muted);
+          max-width: 580px;
+        }
+        .section-header { margin-bottom: 3rem; }
+    
+        /* ===== SERVICES GRID ===== */
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 1.5rem;
+        }
+        .service-card {
+          background: var(--navy-card);
+          border: 1px solid var(--navy-border);
+          border-radius: 16px;
+          padding: 1.75rem;
+          transition: border-color 0.25s, transform 0.2s;
+          position: relative;
+        }
+        .service-card:hover {
+          border-color: rgba(201,168,76,0.5);
+          transform: translateY(-3px);
+        }
+        .service-icon {
+          width: 48px; height: 48px; border-radius: 12px;
+          background: rgba(201,168,76,0.1);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.4rem; margin-bottom: 1rem;
+        }
+        .service-badge {
+          display: inline-block;
+          font-size: 0.72rem; font-weight: 700;
+          padding: 0.25rem 0.6rem; border-radius: 100px;
+          text-transform: uppercase; letter-spacing: 0.5px;
+          margin-bottom: 0.5rem;
+        }
+        .badge-sub {
+          background: rgba(201,168,76,0.12);
+          color: var(--gold);
+          border: 1px solid rgba(201,168,76,0.3);
+        }
+        .badge-free {
+          background: rgba(34,197,94,0.12);
+          color: var(--green);
+          border: 1px solid rgba(34,197,94,0.3);
+        }
+        .service-title {
+          font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;
+        }
+        .service-desc {
+          font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+        .service-link {
+          font-size: 0.85rem; color: var(--gold); font-weight: 600;
+          cursor: pointer; transition: opacity 0.2s;
+        }
+        .service-link:hover { opacity: 0.8; }
+    
+        /* ===== HOW IT WORKS ===== */
+        .how-grid {
+          display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+          gap: 2rem;
+        }
+        .how-step {
+          text-align: center;
+        }
+        .step-num {
+          width: 64px; height: 64px; border-radius: 50%;
+          background: rgba(201,168,76,0.1);
+          border: 2px solid rgba(201,168,76,0.3);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.3rem; font-weight: 900; color: var(--gold);
+          margin: 0 auto 1rem;
+        }
+        .step-title {
+          font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;
+        }
+        .step-desc {
+          font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;
+        }
+    
+        /* ===== CTA BAND ===== */
+        .cta-band {
+          background: linear-gradient(135deg, #1a1035 0%, #0f172a 100%);
+          border-top: 1px solid var(--navy-border);
+          border-bottom: 1px solid var(--navy-border);
+        }
+        .cta-band .container {
+          display: flex; align-items: center; justify-content: space-between;
+          flex-wrap: wrap; gap: 2rem;
+        }
+        .cta-band h2 {
+          font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: #fff;
+        }
+        .cta-band p { color: var(--text-muted); margin-top: 0.5rem; }
+    
+        /* ===== TESTIMONIAL ===== */
+        .testimonial-card {
+          background: var(--navy-card);
+          border: 1px solid var(--navy-border);
+          border-radius: 20px;
+          padding: 2.5rem;
+          max-width: 700px; margin: 0 auto;
+          text-align: center;
+        }
+        .testimonial-quote {
+          font-size: 1.05rem; color: var(--text-primary);
+          line-height: 1.8; margin-bottom: 1.5rem;
+          font-style: italic;
+        }
+        .testimonial-author {
+          font-weight: 700; color: var(--gold);
+        }
+        .testimonial-meta {
+          font-size: 0.85rem; color: var(--text-muted);
+        }
+        .stars { color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; }
+    
+        /* ===== PRICING ===== */
+        .pricing-grid {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2rem; align-items: stretch;
+        }
+        .pricing-card {
+          background: var(--navy-card);
+          border: 1px solid var(--navy-border);
+          border-radius: 20px;
+          padding: 2rem;
+          position: relative;
+        }
+        .pricing-card.featured {
+          border-color: var(--gold);
+          box-shadow: 0 0 40px rgba(201,168,76,0.12);
+        }
+        .popular-badge {
+          position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+          background: var(--gold); color: #0a0f1a;
+          font-size: 0.75rem; font-weight: 800;
+          padding: 0.3rem 1rem; border-radius: 100px;
+          text-transform: uppercase; letter-spacing: 1px;
+        }
+        .plan-name {
+          font-size: 1rem; font-weight: 700; color: var(--text-muted);
+          text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;
+        }
+        .plan-tagline {
+          font-size: 0.88rem; color: var(--text-dim); margin-bottom: 1.5rem;
+        }
+        .plan-price {
+          font-size: 3rem; font-weight: 900; color: #fff; margin-bottom: 0.25rem;
+        }
+        .plan-price span { font-size: 1.2rem; font-weight: 400; color: var(--text-muted); }
+        .plan-trial {
+          font-size: 0.85rem; color: var(--gold); margin-bottom: 1.5rem; font-weight: 600;
+        }
+        .plan-features { list-style: none; margin-bottom: 2rem; }
+        .plan-features li {
+          display: flex; align-items: center; gap: 0.6rem;
+          font-size: 0.9rem; padding: 0.45rem 0;
+          border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .plan-features li:last-child { border-bottom: none; }
+        .check { color: var(--green); font-size: 1rem; flex-shrink: 0; }
+        .cross { color: var(--red); font-size: 1rem; flex-shrink: 0; }
+        .feature-text.dimmed { color: var(--text-dim); }
+        .plan-note {
+          text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 1rem;
+        }
+    
+        /* ===== FINAL CTA ===== */
+        .final-cta {
+          text-align: center;
+          background: linear-gradient(135deg, #0a0f1a 0%, #1a1035 100%);
+          border-top: 1px solid var(--navy-border);
+        }
+        .final-cta h2 {
+          font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900; color: #fff;
+          margin-bottom: 1rem;
+        }
+        .final-cta p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; }
+        .final-cta .note {
+          font-size: 0.85rem; color: var(--text-dim); margin-top: 1.5rem;
+        }
+    
+        /* ===== DISCLAIMER ===== */
+        .disclaimer {
+          background: var(--navy-mid);
+          border-top: 1px solid var(--navy-border);
+          padding: 2rem;
+        }
+        .disclaimer h4 {
+          font-size: 0.85rem; font-weight: 700; color: var(--gold);
+          text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem;
+        }
+        .disclaimer p {
+          font-size: 0.82rem; color: var(--text-dim); line-height: 1.7;
+          max-width: 860px;
+        }
+    
+        /* ===== FOOTER ===== */
+        footer {
+          background: var(--navy);
+          border-top: 1px solid var(--navy-border);
+          padding: 3rem 2rem 2rem;
+        }
+        .footer-grid {
+          max-width: 1100px; margin: 0 auto;
+          display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem;
+          margin-bottom: 2.5rem;
+        }
+        .footer-brand p {
+          font-size: 0.88rem; color: var(--text-dim); line-height: 1.7;
+          margin: 0.75rem 0;
+        }
+        .footer-email {
+          font-size: 0.85rem; color: var(--gold); font-weight: 600;
+        }
+        .footer-col h5 {
+          font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+          text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.5rem; }
+        .footer-col a {
+          font-size: 0.85rem; color: var(--text-dim);
+          transition: color 0.2s;
+        }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+          max-width: 1100px; margin: 0 auto;
+          border-top: 1px solid var(--navy-border);
+          padding-top: 1.5rem;
+          display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-bottom p {
+          font-size: 0.8rem; color: var(--text-dim);
+        }
+        .footer-badges {
+          display: flex; gap: 1rem;
+        }
+        .footer-badge {
+          font-size: 0.75rem; color: var(--text-dim);
+          border: 1px solid var(--navy-border);
+          border-radius: 6px; padding: 0.25rem 0.6rem;
+        }
+    
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+          .nav-links { display: none; }
+          .footer-grid { grid-template-columns: 1fr 1fr; }
+          .hero-stats { gap: 1.5rem; }
+          .cta-band .container { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+          .footer-grid { grid-template-columns: 1fr; }
+          .footer-bottom { flex-direction: column; text-align: center; }
+        }
+      </style>
+    </head>
+    <body>
+    
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">CourtCraft Advocate</div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <button class="btn-ghost">Sign In</button>
+        <button class="btn-primary">Start Free Trial</button>
+      </div>
+    </nav>
+    
+    <!-- HERO -->
+    <section class="hero">
+      <div style="position:relative;z-index:1;max-width:800px;margin:0 auto;">
+        <div class="hero-badge">Professional McKenzie Friend Services</div>
+        <h1>Your Children<br /><span>Deserve Your Best</span></h1>
+        <p class="hero-sub">Professional McKenzie Friend Support at All Stages of Divorce &amp; Custody Proceedings</p>
+        <p class="hero-price">&#163;20/month</p>
+        <p class="hero-trial">7-Day Free Trial &bull; Cancel anytime. No commitment.</p>
+        <div class="hero-buttons">
+          <a href="#contact"><button class="btn-lg secondary">Contact Us</button></a>
+          <a href="#pricing"><button class="btn-lg primary">Start Free Trial</button></a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">5,000+</div>
+            <div class="stat-label">Parents Helped</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">12,000+</div>
+            <div class="stat-label">Court Reports</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">94%</div>
+            <div class="stat-label">Success Rate</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+      <div class="trust-item"><span class="trust-dot"></span>GDPR Compliant</div>
+      <div class="trust-item"><span class="trust-dot"></span>McKenzie Friend Certified</div>
+      <div class="trust-item"><span class="trust-dot"></span>24hr Response Time</div>
+      <div class="trust-item"><span class="trust-dot"></span>5,000+ Parents Helped</div>
+    </div>
+    
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">Our Services</p>
+          <h2 class="section-title">Everything You Need to Fight Smart</h2>
+          <p class="section-sub">Comprehensive tools and support designed specifically for parents navigating family court proceedings.</p>
+        </div>
+        <div class="services-grid">
+    
+          <div class="service-card">
+            <div class="service-icon">&#129302;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">AI Legal Assistant</h3>
+            <p class="service-desc">Get instant guidance on UK family law, court procedures, and McKenzie Friend rights from our AI-powered chatbot.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128196;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Court Report Generator</h3>
+            <p class="service-desc">Generate professional, court-ready PDF reports with timelines, evidence appendices, and statements of truth.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128100;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Child Contact Tracker</h3>
+            <p class="service-desc">Log every pickup, dropoff, and interaction. Track custody schedules and document everything for court.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128176;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Finance Tracker</h3>
+            <p class="service-desc">Track child maintenance payments, additional expenses, and upload receipts. Generate financial summaries.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128172;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Communication Logger</h3>
+            <p class="service-desc">Record all communications with your ex-partner. Tag as positive, neutral, or concerning for court evidence.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128197;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Custody Calendar</h3>
+            <p class="service-desc">Visual calendar view of custody schedules, upcoming court dates, and important deadlines.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128274;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Secure Document Storage</h3>
+            <p class="service-desc">Upload and organise court orders, correspondence, evidence, and financial documents securely.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#9878;&#65039;</div>
+            <span class="service-badge badge-free">Free</span>
+            <h3 class="service-title">McKenzie Friend Support</h3>
+            <p class="service-desc">Professional guidance on your rights as a litigant in person with McKenzie Friend assistance in court.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128218;</div>
+            <span class="service-badge badge-free">Free</span>
+            <h3 class="service-title">Legal Resources Library</h3>
+            <p class="service-desc">Access articles, guides, FAQs, and video tutorials on UK family law and court procedures.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128336;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Case Timeline Builder</h3>
+            <p class="service-desc">Build a chronological timeline of events for your case with evidence linking and export capabilities.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128737;&#65039;</div>
+            <span class="service-badge badge-free">All Users</span>
+            <h3 class="service-title">GDPR Compliant</h3>
+            <p class="service-desc">Your data is encrypted at rest and in transit. Request deletion at any time. Full GDPR compliance.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+          <div class="service-card">
+            <div class="service-icon">&#128202;</div>
+            <span class="service-badge badge-sub">Subscribers</span>
+            <h3 class="service-title">Analytics Dashboard</h3>
+            <p class="service-desc">Visual summaries of contact patterns, financial tracking, and communication trends for your case.</p>
+            <span class="service-link">Learn more &rarr;</span>
+          </div>
+    
+        </div>
+      </div>
+    </section>
+    
+    <!-- HOW IT WORKS -->
+    <section id="how" style="background:var(--navy-mid);border-top:1px solid var(--navy-border);border-bottom:1px solid var(--navy-border);">
+      <div class="container">
+        <div class="section-header" style="text-align:center;">
+          <p class="section-tag">How It Works</p>
+          <h2 class="section-title">Get started in minutes</h2>
+          <p class="section-sub" style="margin:0 auto;">Our platform guides you through every step of your family court journey.</p>
+        </div>
+        <div class="how-grid">
+          <div class="how-step">
+            <div class="step-num">01</div>
+            <h3 class="step-title">Sign Up &amp; Start Trial</h3>
+            <p class="step-desc">Create your account and get 7 days of full access to all features. No payment required upfront.</p>
+          </div>
+          <div class="how-step">
+            <div class="step-num">02</div>
+            <h3 class="step-title">Set Up Your Case</h3>
+            <p class="step-desc">Add your case details, children's information, and start logging contacts, communications, and finances.</p>
+          </div>
+          <div class="how-step">
+            <div class="step-num">03</div>
+            <h3 class="step-title">Get AI Guidance</h3>
+            <p class="step-desc">Use our AI Legal Assistant for instant answers about UK family law, court procedures, and your rights.</p>
+          </div>
+          <div class="how-step">
+            <div class="step-num">04</div>
+            <h3 class="step-title">Generate Court Reports</h3>
+            <p class="step-desc">Create professional, court-ready PDF reports with timelines, evidence, and statements of truth.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA BAND -->
+    <section class="cta-band">
+      <div class="container">
+        <div>
+          <h2>Your Children Are Counting On You</h2>
+          <p>Don't navigate family court alone. Get the professional tools and AI-powered guidance you need to present your case with confidence.</p>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="#contact"><button class="btn-lg secondary">Contact Us Today</button></a>
+          <a href="#pricing"><button class="btn-lg primary">Start Free Trial</button></a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- TESTIMONIAL -->
+    <section style="text-align:center;">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">Trusted by 5,000+ Parents</p>
+          <h2 class="section-title">Real stories from real parents</h2>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"CourtCraft Advocate was a lifeline during my custody battle. The court report generator saved me thousands in solicitor fees, and the AI assistant helped me understand every step of the process."</p>
+          <div class="testimonial-author">Sarah M.</div>
+          <div class="testimonial-meta">London &middot; Custody Case</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- PRICING -->
+    <section id="pricing" style="background:var(--navy-mid);border-top:1px solid var(--navy-border);">
+      <div class="container">
+        <div class="section-header" style="text-align:center;">
+          <p class="section-tag">Simple Pricing</p>
+          <h2 class="section-title">Invest in Your Children's Future</h2>
+          <p class="section-sub" style="margin:0 auto;">One simple plan with everything you need. Start with a 7-day free trial.</p>
+        </div>
+        <div class="pricing-grid">
+    
+          <!-- Free -->
+          <div class="pricing-card">
+            <p class="plan-name">Free Access</p>
+            <p class="plan-tagline">Educational resources only</p>
+            <div class="plan-price">&#163;0<span>/month</span></div>
+            <div style="height:1.5rem;"></div>
+            <ul class="plan-features">
+              <li><span class="check">&#10003;</span><span>Legal resources library</span></li>
+              <li><span class="check">&#10003;</span><span>Blog articles &amp; guides</span></li>
+              <li><span class="check">&#10003;</span><span>Legal glossary access</span></li>
+              <li><span class="check">&#10003;</span><span>FAQ section</span></li>
+              <li><span class="cross">&#10007;</span><span class="feature-text dimmed">AI Legal Assistant</span></li>
+              <li><span class="cross">&#10007;</span><span class="feature-text dimmed">Court Report Generator</span></li>
+              <li><span class="cross">&#10007;</span><span class="feature-text dimmed">Child Contact Tracker</span></li>
+              <li><span class="cross">&#10007;</span><span class="feature-text dimmed">Finance Tracker</span></li>
+              <li><span class="cross">&#10007;</span><span class="feature-text dimmed">Document Storage</span></li>
+              <li><span class="cross">&#10007;</span><span class="feature-text dimmed">Communication Logger</span></li>
+            </ul>
+            <button class="btn-lg secondary" style="width:100%;">Browse Resources</button>
+          </div>
+    
+          <!-- Pro -->
+          <div class="pricing-card featured">
+            <div class="popular-badge">Most Popular</div>
+            <p class="plan-name">Pro Subscriber</p>
+            <p class="plan-tagline">Full access to all tools</p>
+            <div class="plan-price">&#163;20<span>/month</span></div>
+            <p class="plan-trial">7-day free trial included</p>
+            <ul class="plan-features">
+              <li><span class="check">&#10003;</span><span>Everything in Free plan</span></li>
+              <li><span class="check">&#10003;</span><span>AI Legal Assistant (unlimited)</span></li>
+              <li><span class="check">&#10003;</span><span>Court Report Generator</span></li>
+              <li><span class="check">&#10003;</span><span>Child Contact Tracker</span></li>
+              <li><span class="check">&#10003;</span><span>Finance Tracker &amp; Analytics</span></li>
+              <li><span class="check">&#10003;</span><span>Secure Document Storage</span></li>
+              <li><span class="check">&#10003;</span><span>Communication Logger</span></li>
+              <li><span class="check">&#10003;</span><span>Case Timeline Builder</span></li>
+              <li><span class="check">&#10003;</span><span>PDF Export for Court</span></li>
+              <li><span class="check">&#10003;</span><span>Priority Email Support</span></li>
+            </ul>
+            <button class="btn-lg primary" style="width:100%;">Start 7-Day Free Trial</button>
+            <p class="plan-note">Cancel anytime. No hidden fees.</p>
+          </div>
+    
+        </div>
+        <p style="text-align:center;font-size:0.82rem;color:var(--text-dim);margin-top:1.5rem;">
+          Prices shown in GBP. Also available in USD ($25/mo) and EUR (&euro;23/mo).
+        </p>
+      </div>
+    </section>
+    
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+      <div class="container">
+        <h2>Ready to Fight Smart?</h2>
+        <p>Join thousands of parents who have used CourtCraft Advocate to navigate family court with confidence and achieve the best outcomes for their children.</p>
+        <button class="btn-lg primary">Start Your 7-Day Free Trial</button>
+        <p class="note">No credit card required. Full access to all features.</p>
+      </div>
+    </section>
+    
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+      <div style="max-width:1100px;margin:0 auto;">
+        <h4>Important Legal Disclaimers</h4>
+        <p>CourtCraft Advocate provides McKenzie Friend services only. We are NOT solicitors or barristers. All advice and guidance should be verified with a legally qualified legal professional. McKenzie Friends have rights of audience in family courts but cannot conduct litigation or provide legal advice in the traditional sense.</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--text-muted);">GDPR Compliance:</strong> We process personal data in accordance with GDPR. Your information is encrypted and stored securely. You have the right to access, rectify, or request deletion of your personal data at any time.</p>
+      </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo" style="font-size:1.3rem;">CourtCraft Advocate</div>
+          <p>Professional McKenzie Friend support empowering parents through divorce and custody proceedings with confidence.</p>
+          <div class="footer-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3a0a6a3a3bca1a793b0bca6a1a7b0a1b2b5a7b2b7a5bcb0b2a7b6fdb0bcbe">[email&#160;protected]</a></div>
+        </div>
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Legal &amp; Policies</h5>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">GDPR Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Copyright &amp; Legal</a></li>
+            <li><a href="#">Complaints Procedure</a></li>
+            <li><a href="#">Data Deletion Request</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Subscriber Tools</h5>
+          <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">AI Legal Assistant</a></li>
+            <li><a href="#">Court Report Generator</a></li>
+            <li><a href="#">Child Contact Tracker</a></li>
+            <li><a href="#">Document Manager</a></li>
+            <li><a href="#">Billing &amp; Subscription</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 CourtCraft Advocate&trade;. All Rights Reserved. Registered in England &amp; Wales.</p>
+        <div class="footer-badges">
+          <span class="footer-badge">SSL Encrypted</span>
+          <span class="footer-badge">GDPR Compliant</span>
+        </div>
+      </div>
+    </footer>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+    </html>
